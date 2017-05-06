@@ -1,0 +1,25 @@
+{
+  "name": "webpack-pwa-manifest",
+  "version": "1.0.0",
+  "description": "PWA Manifest Generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pwa",
+    "manifest",
+    "gen",
+    "generator",
+    "webpack",
+    "webapp",
+    "manifest.json"
+  ],
+  "author": "Arthur A. Bergamaschi <arthurbergmz@gmail.com> (www.arthurbergamaschi.com)",
+  "license": "MIT",
+  "dependencies": {
+    "css-color-names": "0.0.4",
+    "jimp": "^0.2.27",
+    "mime": "^1.3.4"
+  }
+}
