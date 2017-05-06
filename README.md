@@ -90,7 +90,22 @@ plugins: [
 }
 ```
 
-Presets of `manifest.json`:
+# API
+
+### WebpackPwaManifest([options])
+
+**options**
+
+Type: `object`
+
+You can follow the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest) [specification](https://w3c.github.io/manifest/).
+
+The difference here is that, when defining icons, you can specify one icon with multiple sizes, using an array of integers, just as the example above.
+
+You can also change the output's filename with the property `filename`.
+
+
+Presets of `options`:
 
 ```json
 {
@@ -101,15 +116,3 @@ Presets of `manifest.json`:
   "start_url": "."
 }
 ```
-
-# API
-
-### WebpackPwaManifest([options])
-
-**options**
-Type: `object`
-
-You can follow the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest) [specification](https://w3c.github.io/manifest/).
-The difference here is that, when defining icons, you can specify one icon with multiple sizes, using an array of integers, just as the example above.
-
-You can also change the output's filename with the property `filename`.
