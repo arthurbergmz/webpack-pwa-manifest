@@ -1,6 +1,7 @@
 const cssColorNames = require('css-color-names')
 const jimp = require('jimp')
 const mime = require('mime')
+const path = require('path')
 
 function WebpackPwaManifest (options) {
   const checkIcons = obj => {
@@ -8,13 +9,13 @@ function WebpackPwaManifest (options) {
     const icons = obj.icon || obj.icons
     let response = []
     if (Array.isArray(icons)) {
-      for (let icon of icons) response.push(validateIconInformation(icon.src, icon.size || icon.sizes))
+      for (let icon of icons) response.push(validateIconInformation(icon.src, icon.size || icon.sizes, icon.destination))
     } else {
-      response.push(validateIconInformation(icons.src, icons.size || icons.sizes))
+      response.push(validateIconInformation(icons.src, icons.size || icons.sizes, icons.destination))
     }
     obj.icons = response
   }
-  const validateIconInformation = (src, n) => {
+  const validateIconInformation = (src, n, destination) => {
     if (!src) throw new Error('Unknown source of icon image.')
     if (!n) throw new Error('Unknown icon size declaration.')
     if (!Array.isArray(n)) n = [n]
@@ -25,7 +26,8 @@ function WebpackPwaManifest (options) {
     }
     return {
       src,
-      sizes
+      sizes,
+      destination
     }
   }
   this.presets = {
@@ -73,7 +75,7 @@ WebpackPwaManifest.prototype.generateIcons = function (compilation, callback) {
   const processResize = (size, icon, icons) => {
     let type = mime.lookup(icon.src)
     let extension = mime.extension(type)
-    let filename = `icon_${size}x${size}.${extension}`
+    let filename = icon.destination ? path.join(icon.destination, `icon_${size}x${size}.${extension}`) : `icon_${size}x${size}.${extension}`
     self.config.icons.push({
       src: filename,
       sizes: `${size}x${size}`,
