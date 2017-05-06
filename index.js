@@ -3,15 +3,6 @@ const jimp = require('jimp')
 const mime = require('mime')
 
 function WebpackPwaManifest (options) {
-  const hasPreset = (key, value) => this.presets[key].indexOf(value) >= 0
-  const presetError = (m, n) => new Error(`Unknown value of ${m}: ${n}`)
-  const validateCssColor = color => (/^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/).test(color) || (typeof color === 'string' && cssColorNames[color])
-  const checkPresets = () => {
-    for (let arg of arguments) {
-      let option = options[arg]
-      if (option && !hasPreset(arg, option)) throw presetError(arg, option)
-    }
-  }
   const checkIcons = obj => {
     if (!obj) return
     const icons = obj.icon || obj.icons
@@ -47,6 +38,15 @@ function WebpackPwaManifest (options) {
     display: [
       'fullscreen', 'standalone', 'minimal-ui', 'browser'
     ]
+  }
+  const hasPreset = (key, value) => this.presets[key].indexOf(value) >= 0
+  const presetError = (m, n) => new Error(`Unknown value of ${m}: ${n}`)
+  const validateCssColor = color => (/^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/).test(color) || (typeof color === 'string' && cssColorNames[color])
+  const checkPresets = (...args) => {
+    for (let arg of args) {
+      let option = options[arg]
+      if (option && !hasPreset(arg, option)) throw presetError(arg, option)
+    }
   }
   options = options || {}
   checkIcons(options)
