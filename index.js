@@ -9,7 +9,7 @@ function WebpackPwaManifest (options) {
   const checkPresets = () => {
     for (let arg of arguments) {
       let option = options[arg]
-      if(option && !hasPreset(arg, option)) throw presetError(arg, option)
+      if (option && !hasPreset(arg, option)) throw presetError(arg, option)
     }
   }
   const checkIcons = obj => {
@@ -41,7 +41,7 @@ function WebpackPwaManifest (options) {
     dir: ['ltr', 'rtl', 'auto'],
     orientation: [
       'any', 'natural', 'landscape', 'landscape-primary',
-      'landscape-secondary','portrait', 'portrait-primary',
+      'landscape-secondary', 'portrait', 'portrait-primary',
       'portrait-secondary'
     ],
     display: [
@@ -50,7 +50,7 @@ function WebpackPwaManifest (options) {
   }
   options = options || {}
   checkIcons(options)
-  this.options = Object.assign({
+  this.config = Object.assign({
     filename: 'manifest.json',
     name: 'App',
     orientation: 'portrait',
@@ -58,14 +58,14 @@ function WebpackPwaManifest (options) {
     start_url: '.'
   }, options)
   checkPresets('dir', 'display', 'orientation')
-  if(!this.options.short_name) this.options.short_name = this.options.name
-  if(this.options.background_color && !validateCssColor(this.options.background_color)) throw presetError('background_color', this.options.background_color)
-  if(this.options.theme_color && !validateCssColor(this.options.theme_color)) throw presetError('theme_color', this.options.theme_color)
+  if (!this.config.short_name) this.config.short_name = this.config.name
+  if (this.config.background_color && !validateCssColor(this.config.background_color)) throw presetError('background_color', this.config.background_color)
+  if (this.config.theme_color && !validateCssColor(this.config.theme_color)) throw presetError('theme_color', this.config.theme_color)
 }
 
-WebpackPwaManifest.prototype.generateIcons = (compilation, callback) => {
-  const iconsCache = this.options.icons
-  this.options.icons = []
+WebpackPwaManifest.prototype.generateIcons = function (compilation, callback) {
+  const iconsCache = this.config.icons
+  this.config.icons = []
   const self = this
   const processIcon = (icon, icons) => {
     processResize(icon.sizes.pop(), icon, icons)
@@ -74,14 +74,15 @@ WebpackPwaManifest.prototype.generateIcons = (compilation, callback) => {
     let type = mime.lookup(icon.src)
     let extension = mime.extension(type)
     let filename = `icon_${size}x${size}.${extension}`
-    self.options.icons.push({
+    self.config.icons.push({
       src: filename,
       sizes: `${size}x${size}`,
       type
     })
     jimp.read(icon.src, (err, image) => {
-      if(err) throw new Error(`It was not possible to read ${icon.src}.`)
+      if (err) throw new Error(`It was not possible to read ${icon.src}.`)
       image.resize(size, size).getBuffer(type, (err, buffer) => {
+        if (err) throw new Error(`It was not possible to retrieve buffer of ${icon.src}`)
         compilation.assets[filename] = {
           source: () => buffer,
           size: () => buffer.length
@@ -103,24 +104,20 @@ WebpackPwaManifest.prototype.generateIcons = (compilation, callback) => {
   }
 }
 
-WebpackPwaManifest.prototype.generateManifest = compilation => {
-  const content = Object.assign({}, this.options)
+WebpackPwaManifest.prototype.generateManifest = function (compilation) {
+  const content = Object.assign({}, this.config)
   delete content.filename
   const json = JSON.stringify(content, null, 2)
-  compilation.assets[this.options.filename] = {
-    source: function() {
-      return json
-    },
-    size: function() {
-      return json.length
-    }
+  compilation.assets[this.config.filename] = {
+    source: () => json,
+    size: () => json.length
   }
 }
 
-WebpackPwaManifest.prototype.apply = compiler => {
+WebpackPwaManifest.prototype.apply = function (compiler) {
   const self = this
-  compiler.plugin('emit', function(compilation, callback) {
-    if (self.options.icons) {
+  compiler.plugin('emit', (compilation, callback) => {
+    if (self.config.icons) {
       self.generateIcons(compilation, () => {
         self.generateManifest(compilation)
         callback()
