@@ -15,7 +15,11 @@
     "generator",
     "webpack",
     "webapp",
-    "manifest.json"
+    "manifest.json",
+    "progressive",
+    "web",
+    "app",
+    "application"
   ],
   "author": "Arthur A. Bergamaschi <arthurbergmz@gmail.com> (www.arthurbergamaschi.com)",
   "license": "MIT",
