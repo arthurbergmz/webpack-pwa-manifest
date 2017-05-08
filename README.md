@@ -26,7 +26,7 @@ plugins: [
         background_color: '#ffffff',
         icons: [
             {
-                src: path.resolve('src/assets/icon.png')
+                src: path.resolve('src/assets/icon.png'),
                 sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
             },
             {
@@ -102,7 +102,7 @@ You can follow the [Web App Manifest](https://developer.mozilla.org/en-US/docs/W
 
 The difference here is that, when defining icons, you can specify one icon with multiple sizes, using an array of integers, just as the example above.
 
-You can also change the output's filename with the property `filename`.
+You can also change the output's filename with the `filename` property.
 
 
 Presets of `options`:
@@ -116,3 +116,21 @@ Presets of `options`:
   "start_url": "."
 }
 ```
+
+When defining an icon object, you can also specify its output directory using a property called `destination`.
+
+```javascript
+  ...
+  icons: [
+    {
+      src: path.resolve('src/assets/icons/ios-icon.png'),
+      sizes: [120, 152, 167, 180, 1024],
+      destination: path.join('icons', 'ios')
+    },
+    {
+      src: path.resolve('src/assets/icons/android-icon.png'),
+      sizes: [36, 48, 72, 96, 144, 192, 512],
+      destination: path.join('icons', 'android')
+    }
+  ]
+}
