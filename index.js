@@ -5,8 +5,8 @@ const path = require('path')
 
 function WebpackPwaManifest (options) {
   const checkIcons = obj => {
-    if (!obj) return
     const icons = obj.icon || obj.icons
+    if (!obj || !obj.icons) return
     let response = []
     if (Array.isArray(icons)) {
       for (let icon of icons) response.push(validateIconInformation(icon.src, icon.size || icon.sizes, icon.destination))
