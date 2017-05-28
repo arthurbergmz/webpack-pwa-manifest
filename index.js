@@ -66,9 +66,7 @@ function WebpackPwaManifest (options) {
 }
 
 WebpackPwaManifest.prototype.generateIcons = function (compilation, callback) {
-  const iconsCache = this.config.icons
-  this.config.icons = []
-  const self = this
+  const iconsCopy = JSON.parse(JSON.stringify(this.config.icons)) // deep copy
   const processIcon = (icon, icons) => {
     processResize(icon.sizes.pop(), icon, icons)
   }
@@ -76,11 +74,6 @@ WebpackPwaManifest.prototype.generateIcons = function (compilation, callback) {
     let type = mime.lookup(icon.src)
     let extension = mime.extension(type)
     let filename = icon.destination ? path.join(icon.destination, `icon_${size}x${size}.${extension}`) : `icon_${size}x${size}.${extension}`
-    self.config.icons.push({
-      src: filename,
-      sizes: `${size}x${size}`,
-      type
-    })
     jimp.read(icon.src, (err, image) => {
       if (err) throw new Error(`It was not possible to read ${icon.src}.`)
       image.resize(size, size).getBuffer(type, (err, buffer) => {
@@ -99,8 +92,8 @@ WebpackPwaManifest.prototype.generateIcons = function (compilation, callback) {
       })
     })
   }
-  if (iconsCache.length) {
-    processIcon(iconsCache.pop(), iconsCache)
+  if (iconsCopy.length) {
+    processIcon(iconsCopy.pop(), iconsCopy)
   } else {
     callback()
   }
