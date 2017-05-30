@@ -89,7 +89,7 @@ WebpackPwaManifest.prototype.generateIcons = function (compilation, callback) {
           source: () => buffer,
           size: () => buffer.length
         }
-        if (icon.sizes.length) {
+        if (icon.sizes.length > 0) {
           processResize(icon.sizes.pop(), icon, icons) // next size
         } else if (icons.length) {
           processIcon(icons.pop(), icons) // next icon
