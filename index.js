@@ -66,11 +66,11 @@ function WebpackPwaManifest (options) {
 }
 
 WebpackPwaManifest.prototype.generateIcons = function (compilation, callback) {
-  const iconsCache = this.config.icons
+  const iconsCache = [...this.config.icons]
   this.config.icons = []
   const self = this
   const processIcon = (icon, icons) => {
-    processResize(icon.sizes.pop(), icon, icons)
+    if (icon.sizes.length > 0) processResize(icon.sizes.pop(), icon, icons)
   }
   const processResize = (size, icon, icons) => {
     let type = mime.lookup(icon.src)
