@@ -51,6 +51,7 @@ function WebpackPwaManifest (options) {
     }
   }
   options = options || {}
+  this.processedIcons = undefined
   checkIcons(options)
   this.config = Object.assign({
     filename: 'manifest.json',
@@ -66,17 +67,17 @@ function WebpackPwaManifest (options) {
 }
 
 WebpackPwaManifest.prototype.generateIcons = function (compilation, callback) {
-  const iconsCache = [...this.config.icons]
-  this.config.icons = []
+  this.processedIcons = []
   const self = this
   const processIcon = (icon, icons) => {
-    if (icon.sizes.length > 0) processResize(icon.sizes.pop(), icon, icons)
+    processResize([...icon.sizes], icon, icons)
   }
-  const processResize = (size, icon, icons) => {
+  const processResize = (sizes, icon, icons) => {
+    let size = sizes.pop()
     let type = mime.lookup(icon.src)
     let extension = mime.extension(type)
     let filename = icon.destination ? path.join(icon.destination, `icon_${size}x${size}.${extension}`) : `icon_${size}x${size}.${extension}`
-    self.config.icons.push({
+    self.processedIcons.push({
       src: filename,
       sizes: `${size}x${size}`,
       type
@@ -89,9 +90,9 @@ WebpackPwaManifest.prototype.generateIcons = function (compilation, callback) {
           source: () => buffer,
           size: () => buffer.length
         }
-        if (icon.sizes.length > 0) {
-          processResize(icon.sizes.pop(), icon, icons) // next size
-        } else if (icons.length) {
+        if (sizes.length > 0) {
+          processResize(sizes, icon, icons) // next size
+        } else if (icons.length > 0) {
           processIcon(icons.pop(), icons) // next icon
         } else {
           callback() // there are no more icons left
@@ -99,7 +100,8 @@ WebpackPwaManifest.prototype.generateIcons = function (compilation, callback) {
       })
     })
   }
-  if (iconsCache.length) {
+  if (this.config.icons.length) {
+    let iconsCache = [...this.config.icons]
     processIcon(iconsCache.pop(), iconsCache)
   } else {
     callback()
@@ -109,6 +111,7 @@ WebpackPwaManifest.prototype.generateIcons = function (compilation, callback) {
 WebpackPwaManifest.prototype.generateManifest = function (compilation) {
   const content = Object.assign({}, this.config)
   delete content.filename
+  content.icons = this.processedIcons
   const json = JSON.stringify(content, null, 2)
   compilation.assets[this.config.filename] = {
     source: () => json,
