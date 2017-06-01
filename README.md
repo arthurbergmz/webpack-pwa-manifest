@@ -5,7 +5,9 @@ Webpack plugin that generates a 'manifest.json' for your Progressive Web Applica
 # To-Do list
 
  • Refactoring
+
  • Manifest signature
+ 
  • Auto inject `<link rel="manifest" href="manifest.<signature>.json" />`
 
 # install
