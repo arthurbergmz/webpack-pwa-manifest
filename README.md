@@ -136,6 +136,7 @@ Presets of `options`:
 By default, HTML injection and fingerprint generation are on.
 With `inject: false` and `fingerprints: false`, respectively, you can turn them off.
 
+If you are using `inject`, ensure that `HtmlWebpackPlugin` appears *before* `WebpackPwaManifest` in the `plugins` array.
 
 When defining an icon object, you can also specify its output directory using a property called `destination`.
 
