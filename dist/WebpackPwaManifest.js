@@ -52,6 +52,11 @@ var WebpackPwaManifest = function () {
         });
       });
       compiler.plugin('emit', function (compilation, callback) {
+        if (!_this.assets) {
+          callback();
+          return;
+        }
+
         var _loop = function _loop(asset) {
           compilation.assets[asset.file] = {
             source: function source() {
