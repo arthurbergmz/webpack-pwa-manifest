@@ -8,8 +8,10 @@ exports.default = function (_this, htmlPluginData, callback) {
   if (_this.assets && _this.options.inject) {
     callback();
   } else {
-    (0, _Icons.parseIcons)(_this.options.fingerprints, (0, _Icons.retrieveIcons)(_this.options), function (result) {
-      manifest(_this.options, result.icons, function (manifest) {
+    (0, _Icons.parseIcons)(_this.options.fingerprints, (0, _Icons.retrieveIcons)(_this.options), function (err, result) {
+      if (err) return;
+      manifest(_this.options, result.icons, function (fail, manifest) {
+        if (fail) return;
         _this.options.filename = manifest.file;
         _this.assets = [manifest].concat(_toConsumableArray(result.assets || []));
         callback();
@@ -39,7 +41,7 @@ function manifest(options, icons, callback) {
   delete content.fingerprints;
   var json = JSON.stringify(content, null, 2);
   var filename = _path2.default.parse(options.filename);
-  callback({
+  callback(null, {
     file: options.fingerprints ? filename.name + '.' + (0, _Fingerprint2.default)(json) + filename.ext : '' + filename.name + filename.ext,
     source: json,
     size: json.length

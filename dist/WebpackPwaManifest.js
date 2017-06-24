@@ -52,47 +52,43 @@ var WebpackPwaManifest = function () {
         });
       });
       compiler.plugin('emit', function (compilation, callback) {
-        if (!_this.assets) {
-          callback();
-          return;
-        }
-
-        var _loop = function _loop(asset) {
-          compilation.assets[asset.file] = {
-            source: function source() {
-              return asset.source;
-            },
-            size: function size() {
-              return asset.size;
-            }
+        if (_this.assets) {
+          var _loop = function _loop(asset) {
+            compilation.assets[asset.file] = {
+              source: function source() {
+                return asset.source;
+              },
+              size: function size() {
+                return asset.size;
+              }
+            };
           };
-        };
 
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
+          var _iteratorNormalCompletion = true;
+          var _didIteratorError = false;
+          var _iteratorError = undefined;
 
-        try {
-          for (var _iterator = _this.assets[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var asset = _step.value;
-
-            _loop(asset);
-          }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
           try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-              _iterator.return();
+            for (var _iterator = _this.assets[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+              var asset = _step.value;
+
+              _loop(asset);
             }
+          } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
           } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
+            try {
+              if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+              }
+            } finally {
+              if (_didIteratorError) {
+                throw _iteratorError;
+              }
             }
           }
         }
-
         callback();
       });
     }

@@ -48,7 +48,7 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, call
           const next = cachedIconsCopy.pop()
           process(next.sizes, next, cachedIconsCopy, icons, assets, fingerprint, callback) // next icon
         } else {
-          callback({ icons, assets }) // there are no more icons left
+          callback(null, { icons, assets }) // there are no more icons left
         }
       })
     })
@@ -66,7 +66,7 @@ export function retrieveIcons (options) {
 
 export function parseIcons (fingerprint, icons, callback) {
   if (icons.length === 0) {
-    callback({})
+    callback(null, {})
   } else {
     const first = icons.pop()
     process(first.sizes, first, icons, [], [], fingerprint, callback)

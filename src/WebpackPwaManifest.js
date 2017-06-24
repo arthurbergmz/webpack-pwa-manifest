@@ -34,15 +34,12 @@ class WebpackPwaManifest {
       })
     })
     compiler.plugin('emit', (compilation, callback) => {
-      if (!_this.assets) {
-        callback()
-        return
-      }
-
-      for (let asset of _this.assets) {
-        compilation.assets[asset.file] = {
-          source: () => asset.source,
-          size: () => asset.size
+      if (_this.assets) {
+        for (let asset of _this.assets) {
+          compilation.assets[asset.file] = {
+            source: () => asset.source,
+            size: () => asset.size
+          }
         }
       }
       callback()

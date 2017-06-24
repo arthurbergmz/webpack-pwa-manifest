@@ -9,7 +9,7 @@ function manifest (options, icons, callback) {
   delete content.fingerprints
   const json = JSON.stringify(content, null, 2)
   const filename = path.parse(options.filename)
-  callback({
+  callback(null, {
     file: options.fingerprints ? `${filename.name}.${generateFingerprint(json)}${filename.ext}` : `${filename.name}${filename.ext}`,
     source: json,
     size: json.length
@@ -20,8 +20,10 @@ export default function (_this, htmlPluginData, callback) {
   if (_this.assets && _this.options.inject) {
     callback()
   } else {
-    parseIcons(_this.options.fingerprints, retrieveIcons(_this.options), (result) => {
-      manifest(_this.options, result.icons, (manifest) => {
+    parseIcons(_this.options.fingerprints, retrieveIcons(_this.options), (err, result) => {
+      if (err) return
+      manifest(_this.options, result.icons, (fail, manifest) => {
+        if (fail) return
         _this.options.filename = manifest.file
         _this.assets = [manifest, ...(result.assets || [])]
         callback()

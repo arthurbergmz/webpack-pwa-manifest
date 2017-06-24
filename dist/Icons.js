@@ -97,7 +97,7 @@ function process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, callb
           process(next.sizes, next, cachedIconsCopy, icons, assets, fingerprint, callback // next icon
           );
         } else {
-          callback({ icons: icons, assets: assets } // there are no more icons left
+          callback(null, { icons: icons, assets: assets } // there are no more icons left
           );
         }
       });
@@ -139,7 +139,7 @@ function retrieveIcons(options) {
 
 function parseIcons(fingerprint, icons, callback) {
   if (icons.length === 0) {
-    callback({});
+    callback(null, {});
   } else {
     var first = icons.pop();
     process(first.sizes, first, icons, [], [], fingerprint, callback);
