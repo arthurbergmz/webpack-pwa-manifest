@@ -21,7 +21,7 @@ function sanitizeIcon (iconSnippet) {
   }
 }
 
-function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, callback) {
+function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback) {
   const size = sizes.pop()
   if (size > 0) {
     const type = mime.lookup(icon.src)
@@ -32,8 +32,9 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, call
         const sizeFormat = `${size}x${size}`
         const filename = fingerprint ? `icon_${sizeFormat}.${generateFingerprint(buffer)}.${mime.extension(type)}` : `icon_${sizeFormat}.${mime.extension(type)}`
         const file = icon.destination ? path.join(icon.destination, filename) : filename
+        const src = publicPath + file;
         icons.push({
-          src: file,
+          src,
           sizes: sizeFormat,
           type
         })
@@ -43,10 +44,10 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, call
           size: buffer.length
         })
         if (sizes.length > 0) {
-          process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, callback) // next size
+          process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback) // next size
         } else if (cachedIconsCopy.length > 0) {
           const next = cachedIconsCopy.pop()
-          process(next.sizes, next, cachedIconsCopy, icons, assets, fingerprint, callback) // next icon
+          process(next.sizes, next, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback) // next icon
         } else {
           callback(null, { icons, assets }) // there are no more icons left
         }
@@ -64,11 +65,11 @@ export function retrieveIcons (options) {
   return response
 }
 
-export function parseIcons (fingerprint, icons, callback) {
+export function parseIcons (fingerprint, publicPath, icons, callback) {
   if (icons.length === 0) {
     callback(null, {})
   } else {
     const first = icons.pop()
-    process(first.sizes, first, icons, [], [], fingerprint, callback)
+    process(first.sizes, first, icons, [], [], fingerprint, publicPath, callback)
   }
 }

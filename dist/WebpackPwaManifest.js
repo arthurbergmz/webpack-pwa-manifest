@@ -45,7 +45,11 @@ var WebpackPwaManifest = function () {
         compilation.plugin('html-webpack-plugin-before-html-processing', function (htmlPluginData, callback) {
           (0, _Injector2.default)(_this, htmlPluginData, function () {
             if (_this.options.inject) {
-              htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, '<link rel="manifest" href="' + _this.options.filename + '" /></head>');
+              var _htmlPluginData$asset = htmlPluginData.assets.publicPath,
+                  publicPath = _htmlPluginData$asset === undefined ? '' : _htmlPluginData$asset;
+
+              var filepath = publicPath + _this.options.filename;
+              htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, '<link rel="manifest" href="' + filepath + '" /></head>');
             }
             callback(null, htmlPluginData);
           });
