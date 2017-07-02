@@ -68,7 +68,7 @@ function sanitizeIcon(iconSnippet) {
   };
 }
 
-function process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, callback) {
+function process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback) {
   var size = sizes.pop();
   if (size > 0) {
     var type = _mime2.default.lookup(icon.src);
@@ -79,8 +79,9 @@ function process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, callb
         var sizeFormat = size + 'x' + size;
         var filename = fingerprint ? 'icon_' + sizeFormat + '.' + (0, _Fingerprint2.default)(buffer) + '.' + _mime2.default.extension(type) : 'icon_' + sizeFormat + '.' + _mime2.default.extension(type);
         var file = icon.destination ? _path2.default.join(icon.destination, filename) : filename;
+        var src = publicPath + file;
         icons.push({
-          src: file,
+          src: src,
           sizes: sizeFormat,
           type: type
         });
@@ -90,15 +91,12 @@ function process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, callb
           size: buffer.length
         });
         if (sizes.length > 0) {
-          process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, callback // next size
-          );
+          process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback); // next size
         } else if (cachedIconsCopy.length > 0) {
           var next = cachedIconsCopy.pop();
-          process(next.sizes, next, cachedIconsCopy, icons, assets, fingerprint, callback // next icon
-          );
+          process(next.sizes, next, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback); // next icon
         } else {
-          callback(null, { icons: icons, assets: assets } // there are no more icons left
-          );
+          callback(null, { icons: icons, assets: assets }); // there are no more icons left
         }
       });
     });
@@ -137,11 +135,11 @@ function retrieveIcons(options) {
   return response;
 }
 
-function parseIcons(fingerprint, icons, callback) {
+function parseIcons(fingerprint, publicPath, icons, callback) {
   if (icons.length === 0) {
     callback(null, {});
   } else {
     var first = icons.pop();
-    process(first.sizes, first, icons, [], [], fingerprint, callback);
+    process(first.sizes, first, icons, [], [], fingerprint, publicPath, callback);
   }
 }

@@ -20,7 +20,8 @@ export default function (_this, htmlPluginData, callback) {
   if (_this.assets && _this.options.inject) {
     callback()
   } else {
-    parseIcons(_this.options.fingerprints, retrieveIcons(_this.options), (err, result) => {
+    const { publicPath = '' } = htmlPluginData.assets;
+    parseIcons(_this.options.fingerprints, publicPath, retrieveIcons(_this.options), (err, result) => {
       if (err) return
       manifest(_this.options, result.icons, (fail, manifest) => {
         if (fail) return

@@ -8,7 +8,10 @@ exports.default = function (_this, htmlPluginData, callback) {
   if (_this.assets && _this.options.inject) {
     callback();
   } else {
-    (0, _Icons.parseIcons)(_this.options.fingerprints, (0, _Icons.retrieveIcons)(_this.options), function (err, result) {
+    var _htmlPluginData$asset = htmlPluginData.assets.publicPath,
+        publicPath = _htmlPluginData$asset === undefined ? '' : _htmlPluginData$asset;
+
+    (0, _Icons.parseIcons)(_this.options.fingerprints, publicPath, (0, _Icons.retrieveIcons)(_this.options), function (err, result) {
       if (err) return;
       manifest(_this.options, result.icons, function (fail, manifest) {
         if (fail) return;
