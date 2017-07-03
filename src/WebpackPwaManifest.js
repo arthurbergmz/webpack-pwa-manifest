@@ -1,6 +1,6 @@
 import validatePresets from './Presets'
 import validateColors from './Colors'
-import injectHtml from './Injector'
+import { buildResources, injectResources } from './Injector'
 
 class WebpackPwaManifest {
   constructor (options) {
@@ -13,22 +13,24 @@ class WebpackPwaManifest {
       display: 'standalone',
       start_url: '.',
       inject: true,
-      fingerprints: true
+      fingerprints: true,
+      useWebpackPublicPath: false
     }, options || {})
     this.options.short_name = this.options.short_name || this.options.name
     this.assets = null
+    this.htmlPlugin = false
   }
 
   apply (compiler) {
     const _this = this
     compiler.plugin('compilation', (compilation) => {
       compilation.plugin('html-webpack-plugin-before-html-processing', function (htmlPluginData, callback) {
-        injectHtml(_this, htmlPluginData, () => {
+        if (!_this.htmlPlugin) _this.htmlPlugin = true
+        buildResources(_this, _this.options.useWebpackPublicPath ? htmlPluginData.assets.publicPath : null, () => {
           if (_this.options.inject) {
-            const { publicPath = '' } = htmlPluginData.assets;
-            const filepath = publicPath + _this.options.filename;
             htmlPluginData.html = htmlPluginData.html.replace(
-              /(<\/head>)/i, `<link rel="manifest" href="${filepath}" /></head>`
+              /(<\/head>)/i,
+              `<link rel="manifest" href="${_this.options.filename}" /></head>`
             )
           }
           callback(null, htmlPluginData)
@@ -36,15 +38,13 @@ class WebpackPwaManifest {
       })
     })
     compiler.plugin('emit', (compilation, callback) => {
-      if (_this.assets) {
-        for (let asset of _this.assets) {
-          compilation.assets[asset.file] = {
-            source: () => asset.source,
-            size: () => asset.size
-          }
-        }
+      if (_this.htmlPlugin) {
+        injectResources(compilation, _this.assets, callback)
+      } else {
+        buildResources(_this, _this.options.useWebpackPublicPath ? compilation.options.output.publicPath : null, () => {
+          injectResources(compilation, _this.assets, callback)
+        })
       }
-      callback()
     })
   }
 }

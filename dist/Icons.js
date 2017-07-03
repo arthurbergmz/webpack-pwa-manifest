@@ -79,9 +79,8 @@ function process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publi
         var sizeFormat = size + 'x' + size;
         var filename = fingerprint ? 'icon_' + sizeFormat + '.' + (0, _Fingerprint2.default)(buffer) + '.' + _mime2.default.extension(type) : 'icon_' + sizeFormat + '.' + _mime2.default.extension(type);
         var file = icon.destination ? _path2.default.join(icon.destination, filename) : filename;
-        var src = publicPath + file;
         icons.push({
-          src: src,
+          src: _path2.default.join(publicPath, file),
           sizes: sizeFormat,
           type: type
         });
@@ -91,12 +90,15 @@ function process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publi
           size: buffer.length
         });
         if (sizes.length > 0) {
-          process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback); // next size
+          process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback // next size
+          );
         } else if (cachedIconsCopy.length > 0) {
           var next = cachedIconsCopy.pop();
-          process(next.sizes, next, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback); // next icon
+          process(next.sizes, next, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback // next icon
+          );
         } else {
-          callback(null, { icons: icons, assets: assets }); // there are no more icons left
+          callback(null, { icons: icons, assets: assets } // there are no more icons left
+          );
         }
       });
     });

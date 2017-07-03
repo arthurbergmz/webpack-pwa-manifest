@@ -32,9 +32,8 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publ
         const sizeFormat = `${size}x${size}`
         const filename = fingerprint ? `icon_${sizeFormat}.${generateFingerprint(buffer)}.${mime.extension(type)}` : `icon_${sizeFormat}.${mime.extension(type)}`
         const file = icon.destination ? path.join(icon.destination, filename) : filename
-        const src = publicPath + file;
         icons.push({
-          src,
+          src: path.join(publicPath, file),
           sizes: sizeFormat,
           type
         })

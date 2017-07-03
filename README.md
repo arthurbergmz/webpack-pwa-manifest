@@ -2,6 +2,8 @@
 
 Webpack plugin that generates a 'manifest.json' for your Progressive Web Application, with auto icon resizing and fingerprinting support.
 
+If you are using `inject` on your configuration, ensure that [`HtmlWebpackPlugin`](https://github.com/jantimon/html-webpack-plugin) appears *before* `WebpackPwaManifest` in the `plugins` array!
+
 # features
 
  ✔ Auto icon resizing
@@ -118,7 +120,6 @@ The difference here is that, when defining icons, you can specify one icon with 
 
 You can also change the output's filename with the `filename` property.
 
-
 Presets of `options`:
 
 ```javascript
@@ -129,14 +130,15 @@ Presets of `options`:
   display: "standalone",
   start_url: ".",
   inject: true,
-  fingerprints: true
+  fingerprints: true,
+  useWebpackPublicPath: false
 }
 ```
 
 By default, HTML injection and fingerprint generation are on.
 With `inject: false` and `fingerprints: false`, respectively, you can turn them off.
 
-If you are using `inject`, ensure that `HtmlWebpackPlugin` appears *before* `WebpackPwaManifest` in the `plugins` array.
+You can use [Webpack's public path](https://webpack.js.org/configuration/output/#output-publicpath) definition by setting `useWebpackPublicPath` as `true`.
 
 When defining an icon object, you can also specify its output directory using a property called `destination`.
 

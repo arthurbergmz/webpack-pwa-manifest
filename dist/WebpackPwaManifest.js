@@ -12,8 +12,6 @@ var _Colors2 = _interopRequireDefault(_Colors);
 
 var _Injector = require('./Injector');
 
-var _Injector2 = _interopRequireDefault(_Injector);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31,10 +29,12 @@ var WebpackPwaManifest = function () {
       display: 'standalone',
       start_url: '.',
       inject: true,
-      fingerprints: true
+      fingerprints: true,
+      useWebpackPublicPath: false
     }, options || {});
     this.options.short_name = this.options.short_name || this.options.name;
     this.assets = null;
+    this.htmlPlugin = false;
   }
 
   _createClass(WebpackPwaManifest, [{
@@ -43,57 +43,23 @@ var WebpackPwaManifest = function () {
       var _this = this;
       compiler.plugin('compilation', function (compilation) {
         compilation.plugin('html-webpack-plugin-before-html-processing', function (htmlPluginData, callback) {
-          (0, _Injector2.default)(_this, htmlPluginData, function () {
+          if (!_this.htmlPlugin) _this.htmlPlugin = true;
+          (0, _Injector.buildResources)(_this, _this.options.useWebpackPublicPath ? htmlPluginData.assets.publicPath : null, function () {
             if (_this.options.inject) {
-              var _htmlPluginData$asset = htmlPluginData.assets.publicPath,
-                  publicPath = _htmlPluginData$asset === undefined ? '' : _htmlPluginData$asset;
-
-              var filepath = publicPath + _this.options.filename;
-              htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, '<link rel="manifest" href="' + filepath + '" /></head>');
+              htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, '<link rel="manifest" href="' + _this.options.filename + '" /></head>');
             }
             callback(null, htmlPluginData);
           });
         });
       });
       compiler.plugin('emit', function (compilation, callback) {
-        if (_this.assets) {
-          var _loop = function _loop(asset) {
-            compilation.assets[asset.file] = {
-              source: function source() {
-                return asset.source;
-              },
-              size: function size() {
-                return asset.size;
-              }
-            };
-          };
-
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
-
-          try {
-            for (var _iterator = _this.assets[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var asset = _step.value;
-
-              _loop(asset);
-            }
-          } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
-          }
+        if (_this.htmlPlugin) {
+          (0, _Injector.injectResources)(compilation, _this.assets, callback);
+        } else {
+          (0, _Injector.buildResources)(_this, _this.options.useWebpackPublicPath ? compilation.options.output.publicPath : null, function () {
+            (0, _Injector.injectResources)(compilation, _this.assets, callback);
+          });
         }
-        callback();
       });
     }
   }]);
