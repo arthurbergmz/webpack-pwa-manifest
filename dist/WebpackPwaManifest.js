@@ -10,6 +10,8 @@ var _Colors = require('./Colors');
 
 var _Colors2 = _interopRequireDefault(_Colors);
 
+var _Versioning = require('./Versioning');
+
 var _Injector = require('./Injector');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -29,9 +31,9 @@ var WebpackPwaManifest = function () {
       display: 'standalone',
       start_url: '.',
       inject: true,
-      fingerprints: true,
-      useWebpackPublicPath: false
+      fingerprints: true
     }, options || {});
+    (0, _Versioning.checkDeprecated)(this.options, 'useWebpackPublicPath');
     this.options.short_name = this.options.short_name || this.options.name;
     this.assets = null;
     this.htmlPlugin = false;
@@ -44,7 +46,7 @@ var WebpackPwaManifest = function () {
       compiler.plugin('compilation', function (compilation) {
         compilation.plugin('html-webpack-plugin-before-html-processing', function (htmlPluginData, callback) {
           if (!_this.htmlPlugin) _this.htmlPlugin = true;
-          (0, _Injector.buildResources)(_this, _this.options.useWebpackPublicPath ? htmlPluginData.assets.publicPath : null, function () {
+          (0, _Injector.buildResources)(_this, compilation.options.output.publicPath, function () {
             if (_this.options.inject) {
               htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, '<link rel="manifest" href="' + _this.options.filename + '" /></head>');
             }
@@ -56,7 +58,7 @@ var WebpackPwaManifest = function () {
         if (_this.htmlPlugin) {
           (0, _Injector.injectResources)(compilation, _this.assets, callback);
         } else {
-          (0, _Injector.buildResources)(_this, _this.options.useWebpackPublicPath ? compilation.options.output.publicPath : null, function () {
+          (0, _Injector.buildResources)(_this, compilation.options.output.publicPath, function () {
             (0, _Injector.injectResources)(compilation, _this.assets, callback);
           });
         }

@@ -1,5 +1,6 @@
 import validatePresets from './Presets'
 import validateColors from './Colors'
+import { checkDeprecated } from './Versioning'
 import { buildResources, injectResources } from './Injector'
 
 class WebpackPwaManifest {
@@ -13,9 +14,9 @@ class WebpackPwaManifest {
       display: 'standalone',
       start_url: '.',
       inject: true,
-      fingerprints: true,
-      useWebpackPublicPath: false
+      fingerprints: true
     }, options || {})
+    checkDeprecated(this.options, 'useWebpackPublicPath')
     this.options.short_name = this.options.short_name || this.options.name
     this.assets = null
     this.htmlPlugin = false
@@ -26,7 +27,7 @@ class WebpackPwaManifest {
     compiler.plugin('compilation', (compilation) => {
       compilation.plugin('html-webpack-plugin-before-html-processing', function (htmlPluginData, callback) {
         if (!_this.htmlPlugin) _this.htmlPlugin = true
-        buildResources(_this, _this.options.useWebpackPublicPath ? htmlPluginData.assets.publicPath : null, () => {
+        buildResources(_this, compilation.options.output.publicPath, () => {
           if (_this.options.inject) {
             htmlPluginData.html = htmlPluginData.html.replace(
               /(<\/head>)/i,
@@ -41,7 +42,7 @@ class WebpackPwaManifest {
       if (_this.htmlPlugin) {
         injectResources(compilation, _this.assets, callback)
       } else {
-        buildResources(_this, _this.options.useWebpackPublicPath ? compilation.options.output.publicPath : null, () => {
+        buildResources(_this, compilation.options.output.publicPath, () => {
           injectResources(compilation, _this.assets, callback)
         })
       }

@@ -3,10 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.checkDeprecated = checkDeprecated;
+var deprecated = {
+  useWebpackPublicPath: 'https://github.com/arthurbergmz/webpack-pwa-manifest/issues/12'
+};
 
-exports.default = function (config) {
-  if (!config) return;
-
+function checkDeprecated(options) {
   for (var _len = arguments.length, properties = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     properties[_key - 1] = arguments[_key];
   }
@@ -19,8 +21,10 @@ exports.default = function (config) {
     for (var _iterator = properties[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var property = _step.value;
 
-      var value = config[property];
-      if (value && !hasPreset(property, value)) throw new _PresetError2.default(property, value);
+      if (options[property]) {
+        console.log('"' + property + '" is a deprecated option. Read more at "' + deprecated[property] + '".');
+        delete options[property];
+      }
     }
   } catch (err) {
     _didIteratorError = true;
@@ -36,20 +40,4 @@ exports.default = function (config) {
       }
     }
   }
-};
-
-var _PresetError = require('./errors/PresetError');
-
-var _PresetError2 = _interopRequireDefault(_PresetError);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var presets = {
-  dir: ['ltr', 'rtl', 'auto'],
-  orientation: ['any', 'natural', 'landscape', 'landscape-primary', 'landscape-secondary', 'portrait', 'portrait-primary', 'portrait-secondary'],
-  display: ['fullscreen', 'standalone', 'minimal-ui', 'browser']
-};
-
-function hasPreset(key, value) {
-  return presets[key].indexOf(value) >= 0;
 }

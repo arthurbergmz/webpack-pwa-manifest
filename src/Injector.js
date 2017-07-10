@@ -7,7 +7,6 @@ function manifest (options, publicPath, icons, callback) {
   delete content.filename
   delete content.inject
   delete content.fingerprints
-  delete content.useWebpackPublicPath
   const json = JSON.stringify(content, null, 2)
   const filename = path.parse(options.filename)
   callback(null, {

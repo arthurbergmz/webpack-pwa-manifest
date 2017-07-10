@@ -31,9 +31,9 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publ
         if (err) throw new IconError(`It was not possible to retrieve buffer of '${icon.src}'.`)
         const sizeFormat = `${size}x${size}`
         const filename = fingerprint ? `icon_${sizeFormat}.${generateFingerprint(buffer)}.${mime.extension(type)}` : `icon_${sizeFormat}.${mime.extension(type)}`
-        const file = icon.destination ? path.join(icon.destination, filename) : filename
+        const file = path.join(publicPath, icon.destination ? path.join(icon.destination, filename) : filename)
         icons.push({
-          src: path.join(publicPath, file),
+          src: file,
           sizes: sizeFormat,
           type
         })

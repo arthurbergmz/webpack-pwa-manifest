@@ -32,7 +32,6 @@ declare namespace WebpackPwaManifest {
         short_name?: string;
         start_url?: string;
         theme_color?: string;
-        useWebpackPublicPath?: boolean;
     }
     interface RelatedApplications {
         platform?: string;

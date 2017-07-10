@@ -78,9 +78,9 @@ function process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publi
         if (err) throw new _IconError2.default('It was not possible to retrieve buffer of \'' + icon.src + '\'.');
         var sizeFormat = size + 'x' + size;
         var filename = fingerprint ? 'icon_' + sizeFormat + '.' + (0, _Fingerprint2.default)(buffer) + '.' + _mime2.default.extension(type) : 'icon_' + sizeFormat + '.' + _mime2.default.extension(type);
-        var file = icon.destination ? _path2.default.join(icon.destination, filename) : filename;
+        var file = _path2.default.join(publicPath, icon.destination ? _path2.default.join(icon.destination, filename) : filename);
         icons.push({
-          src: _path2.default.join(publicPath, file),
+          src: file,
           sizes: sizeFormat,
           type: type
         });

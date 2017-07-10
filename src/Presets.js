@@ -1,6 +1,6 @@
 import PresetError from './errors/PresetError'
 
-const Presets = {
+const presets = {
   dir: ['ltr', 'rtl', 'auto'],
   orientation: [
     'any', 'natural', 'landscape', 'landscape-primary',
@@ -13,7 +13,7 @@ const Presets = {
 }
 
 function hasPreset (key, value) {
-  return Presets[key].indexOf(value) >= 0
+  return presets[key].indexOf(value) >= 0
 }
 
 export default function (config, ...properties) {

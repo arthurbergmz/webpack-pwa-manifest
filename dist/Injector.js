@@ -25,7 +25,6 @@ function manifest(options, publicPath, icons, callback) {
   delete content.filename;
   delete content.inject;
   delete content.fingerprints;
-  delete content.useWebpackPublicPath;
   var json = JSON.stringify(content, null, 2);
   var filename = _path2.default.parse(options.filename);
   callback(null, {
