@@ -27,8 +27,10 @@ function manifest(options, publicPath, icons, callback) {
   delete content.fingerprints;
   var json = JSON.stringify(content, null, 2);
   var filename = _path2.default.parse(options.filename);
+  var output = options.fingerprints ? filename.name + '.' + (0, _Fingerprint2.default)(json) + filename.ext : '' + filename.name + filename.ext;
   callback(null, {
-    file: _path2.default.join(publicPath, options.fingerprints ? filename.name + '.' + (0, _Fingerprint2.default)(json) + filename.ext : '' + filename.name + filename.ext),
+    output: output,
+    file: _path2.default.join(publicPath, output),
     source: json,
     size: json.length
   });
@@ -55,7 +57,7 @@ function buildResources(_this, publicPath, callback) {
 function injectResources(compilation, assets, callback) {
   if (assets) {
     var _loop = function _loop(asset) {
-      compilation.assets[asset.file] = {
+      compilation.assets[asset.output] = {
         source: function source() {
           return asset.source;
         },

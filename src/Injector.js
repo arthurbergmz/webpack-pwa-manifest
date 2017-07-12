@@ -9,8 +9,10 @@ function manifest (options, publicPath, icons, callback) {
   delete content.fingerprints
   const json = JSON.stringify(content, null, 2)
   const filename = path.parse(options.filename)
+  const output = options.fingerprints ? `${filename.name}.${generateFingerprint(json)}${filename.ext}` : `${filename.name}${filename.ext}`
   callback(null, {
-    file: path.join(publicPath, options.fingerprints ? `${filename.name}.${generateFingerprint(json)}${filename.ext}` : `${filename.name}${filename.ext}`),
+    output,
+    file: path.join(publicPath, output),
     source: json,
     size: json.length
   })
@@ -36,7 +38,7 @@ export function buildResources (_this, publicPath, callback) {
 export function injectResources (compilation, assets, callback) {
   if (assets) {
     for (let asset of assets) {
-      compilation.assets[asset.file] = {
+      compilation.assets[asset.output] = {
         source: () => asset.source,
         size: () => asset.size
       }
