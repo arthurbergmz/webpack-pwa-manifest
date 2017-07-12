@@ -130,15 +130,14 @@ Presets of `options`:
   display: "standalone",
   start_url: ".",
   inject: true,
-  fingerprints: true,
-  useWebpackPublicPath: false
+  fingerprints: true
 }
 ```
 
 By default, HTML injection and fingerprint generation are on.
 With `inject: false` and `fingerprints: false`, respectively, you can turn them off.
 
-You can use [Webpack's public path](https://webpack.js.org/configuration/output/#output-publicpath) definition by setting `useWebpackPublicPath` as `true`.
+This plugin also supports the [Webpack's public path](https://webpack.js.org/configuration/output/#output-publicpath) definition.
 
 When defining an icon object, you can also specify its output directory using a property called `destination`.
 
