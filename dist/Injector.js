@@ -14,6 +14,10 @@ var _Fingerprint = require('./Fingerprint');
 
 var _Fingerprint2 = _interopRequireDefault(_Fingerprint);
 
+var _URI = require('./URI');
+
+var _URI2 = _interopRequireDefault(_URI);
+
 var _Icons = require('./Icons');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -30,7 +34,7 @@ function manifest(options, publicPath, icons, callback) {
   var output = options.fingerprints ? filename.name + '.' + (0, _Fingerprint2.default)(json) + filename.ext : '' + filename.name + filename.ext;
   callback(null, {
     output: output,
-    file: _path2.default.join(publicPath, output),
+    file: (0, _URI2.default)(publicPath, output),
     source: json,
     size: json.length
   });

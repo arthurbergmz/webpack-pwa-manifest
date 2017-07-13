@@ -12,6 +12,8 @@ var _Colors2 = _interopRequireDefault(_Colors);
 
 var _Versioning = require('./Versioning');
 
+var _Versioning2 = _interopRequireDefault(_Versioning);
+
 var _Injector = require('./Injector');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -33,7 +35,7 @@ var WebpackPwaManifest = function () {
       inject: true,
       fingerprints: true
     }, options || {});
-    (0, _Versioning.checkDeprecated)(this.options, 'useWebpackPublicPath');
+    (0, _Versioning2.default)(this.options, 'useWebpackPublicPath');
     this.options.short_name = this.options.short_name || this.options.name;
     this.assets = null;
     this.htmlPlugin = false;

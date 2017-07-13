@@ -1,6 +1,7 @@
 import jimp from 'jimp'
 import mime from 'mime'
 import path from 'path'
+import joinURI from './URI'
 import generateFingerprint from './Fingerprint'
 import IconError from './errors/IconError'
 
@@ -31,9 +32,9 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publ
         if (err) throw new IconError(`It was not possible to retrieve buffer of '${icon.src}'.`)
         const sizeFormat = `${size}x${size}`
         const filename = fingerprint ? `icon_${sizeFormat}.${generateFingerprint(buffer)}.${mime.extension(type)}` : `icon_${sizeFormat}.${mime.extension(type)}`
-        const output = icon.destination ? path.join(icon.destination, filename) : filename
+        const output = icon.destination ? joinURI(icon.destination, filename) : filename
         icons.push({
-          src: path.join(publicPath, output),
+          src: joinURI(publicPath, output),
           sizes: sizeFormat,
           type
         })

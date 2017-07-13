@@ -1,3 +1,7 @@
+## 3.1.2 (2017-07-13)
+
+- Fixed resources URI on Windows. See more information at [issue #14](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/14).
+
 ## 3.1.1 (2017-07-12)
 
 - `useWebpackPublicPath` is now deprecated. See more information at [issue #12](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/12).

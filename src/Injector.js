@@ -1,5 +1,6 @@
 import path from 'path'
 import generateFingerprint from './Fingerprint'
+import joinURI from './URI'
 import { retrieveIcons, parseIcons } from './Icons'
 
 function manifest (options, publicPath, icons, callback) {
@@ -12,7 +13,7 @@ function manifest (options, publicPath, icons, callback) {
   const output = options.fingerprints ? `${filename.name}.${generateFingerprint(json)}${filename.ext}` : `${filename.name}${filename.ext}`
   callback(null, {
     output,
-    file: path.join(publicPath, output),
+    file: joinURI(publicPath, output),
     source: json,
     size: json.length
   })

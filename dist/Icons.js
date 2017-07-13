@@ -18,6 +18,10 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _URI = require('./URI');
+
+var _URI2 = _interopRequireDefault(_URI);
+
 var _Fingerprint = require('./Fingerprint');
 
 var _Fingerprint2 = _interopRequireDefault(_Fingerprint);
@@ -78,9 +82,9 @@ function process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publi
         if (err) throw new _IconError2.default('It was not possible to retrieve buffer of \'' + icon.src + '\'.');
         var sizeFormat = size + 'x' + size;
         var filename = fingerprint ? 'icon_' + sizeFormat + '.' + (0, _Fingerprint2.default)(buffer) + '.' + _mime2.default.extension(type) : 'icon_' + sizeFormat + '.' + _mime2.default.extension(type);
-        var output = icon.destination ? _path2.default.join(icon.destination, filename) : filename;
+        var output = icon.destination ? (0, _URI2.default)(icon.destination, filename) : filename;
         icons.push({
-          src: _path2.default.join(publicPath, output),
+          src: (0, _URI2.default)(publicPath, output),
           sizes: sizeFormat,
           type: type
         });

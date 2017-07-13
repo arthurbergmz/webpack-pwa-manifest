@@ -1,6 +1,6 @@
 import validatePresets from './Presets'
 import validateColors from './Colors'
-import { checkDeprecated } from './Versioning'
+import checkDeprecated from './Versioning'
 import { buildResources, injectResources } from './Injector'
 
 class WebpackPwaManifest {

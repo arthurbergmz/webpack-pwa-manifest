@@ -3,12 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.checkDeprecated = checkDeprecated;
-var deprecated = {
-  useWebpackPublicPath: 'https://github.com/arthurbergmz/webpack-pwa-manifest/issues/12'
-};
 
-function checkDeprecated(options) {
+exports.default = function (options) {
   for (var _len = arguments.length, properties = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     properties[_key - 1] = arguments[_key];
   }
@@ -40,4 +36,8 @@ function checkDeprecated(options) {
       }
     }
   }
-}
+};
+
+var deprecated = {
+  useWebpackPublicPath: 'https://github.com/arthurbergmz/webpack-pwa-manifest/issues/12'
+};
