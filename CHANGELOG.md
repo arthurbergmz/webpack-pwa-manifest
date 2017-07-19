@@ -1,4 +1,4 @@
-## 3.1.3 (2017-07-19)
+## 3.1.4 (2017-07-19)
 
 - Fixed excessive slashes on output. See more information at [issue #15](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/15).
 
