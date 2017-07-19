@@ -31,7 +31,7 @@ class WebpackPwaManifest {
           if (_this.options.inject) {
             htmlPluginData.html = htmlPluginData.html.replace(
               /(<\/head>)/i,
-              `<link rel="manifest" href="${_this.options.filename.replace(/\/+/g, '\\/')}" /></head>`
+              `<link rel="manifest" href="${_this.options.filename.replace(/\/+/g, '/')}" /></head>`
             )
           }
           callback(null, htmlPluginData)
