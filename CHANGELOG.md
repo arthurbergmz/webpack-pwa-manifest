@@ -1,3 +1,7 @@
+## 3.1.3 (2017-07-19)
+
+- Fixed excessive slashes on output. See more information at [issue #15](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/15).
+
 ## 3.1.2 (2017-07-13)
 
 - Fixed resources URI on Windows. See more information at [issue #14](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/14).

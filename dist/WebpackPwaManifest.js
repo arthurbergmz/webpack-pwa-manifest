@@ -50,7 +50,7 @@ var WebpackPwaManifest = function () {
           if (!_this.htmlPlugin) _this.htmlPlugin = true;
           (0, _Injector.buildResources)(_this, compilation.options.output.publicPath, function () {
             if (_this.options.inject) {
-              htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, '<link rel="manifest" href="' + _this.options.filename + '" /></head>');
+              htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, '<link rel="manifest" href="' + _this.options.filename.replace(/\/+/g, '\\/') + '" /></head>');
             }
             callback(null, htmlPluginData);
           });
