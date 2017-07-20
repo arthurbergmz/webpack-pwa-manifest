@@ -1,6 +1,6 @@
 import path from 'path'
 import generateFingerprint from './Fingerprint'
-import joinURI from './URI'
+import { joinURI, normalizeURI } from './URI'
 import { retrieveIcons, parseIcons } from './Icons'
 
 function manifest (options, publicPath, icons, callback) {

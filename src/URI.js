@@ -1,3 +1,7 @@
-export default function (...arr) {
-  return arr.join('/').replace(/([^:\s\%\3\A])\/+/g, '$1/')
+export function joinURI (...arr) {
+  return normalizeURI(arr.join('/'))
+}
+
+export function normalizeURI (uri) {
+  return uri.replace(/(\\+|\/{2,})/g, '/')
 }

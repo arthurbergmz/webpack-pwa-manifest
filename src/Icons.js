@@ -1,7 +1,6 @@
 import jimp from 'jimp'
 import mime from 'mime'
-import path from 'path'
-import joinURI from './URI'
+import { joinURI } from './URI'
 import generateFingerprint from './Fingerprint'
 import IconError from './errors/IconError'
 
