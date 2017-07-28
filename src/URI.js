@@ -3,5 +3,5 @@ export function joinURI (...arr) {
 }
 
 export function normalizeURI (uri) {
-  return uri.replace(/(\\+|\/{2,})/g, '/')
+  return uri.replace(/(:\/\/)|(\\+|\/{2,})+/g, match => match === '://' ? '://' : '/')
 }
