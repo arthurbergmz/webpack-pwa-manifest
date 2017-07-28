@@ -1,3 +1,7 @@
+## 3.1.6 (2017-07-28)
+
+- Fixed misbehavior with protocols' slashes. See more information at [issue #16](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/16).
+
 ## 3.1.5 (2017-07-19)
 
 - Fixed excessive "forward" slashes and backslashes. See more information at [issue #15](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/15).
