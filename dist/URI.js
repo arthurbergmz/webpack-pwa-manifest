@@ -10,7 +10,8 @@ function joinURI() {
     arr[_key] = arguments[_key];
   }
 
-  return normalizeURI(arr.join('/'));
+  var join = arr.join('/');
+  return normalizeURI(join[0] === '/' ? join.substring(1) : join);
 }
 
 function normalizeURI(uri) {

@@ -1,5 +1,6 @@
 export function joinURI (...arr) {
-  return normalizeURI(arr.join('/'))
+  const join = arr.join('/')
+  return normalizeURI(join[0] === '/' ? join.substring(1) : join)
 }
 
 export function normalizeURI (uri) {
