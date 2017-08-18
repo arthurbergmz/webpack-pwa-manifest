@@ -92,7 +92,7 @@ export function generateAppleTags (options, assets) {
     if (assets) {
       for (let asset of assets) {
         if (asset.ios && asset.ios.valid) {
-          if (asset.ios.valid === 'default') {
+          if (asset.ios.valid === 'startup') {
             applyTag(tags, 'link', {
               rel: 'apple-touch-startup-image',
               href: asset.ios.href
