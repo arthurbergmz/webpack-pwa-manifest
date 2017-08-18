@@ -1,7 +1,7 @@
 import validatePresets from './Presets'
 import validateColors from './Colors'
 import checkDeprecated from './Versioning'
-import { buildResources, injectResources } from './Injector'
+import { buildResources, injectResources, generateHtmlTags, generateAppleTags, applyTag } from './Injector'
 
 class WebpackPwaManifest {
   constructor (options) {
@@ -14,7 +14,8 @@ class WebpackPwaManifest {
       display: 'standalone',
       start_url: '.',
       inject: true,
-      fingerprints: true
+      fingerprints: true,
+      ios: false
     }, options || {})
     checkDeprecated(this.options, 'useWebpackPublicPath')
     this.options.short_name = this.options.short_name || this.options.name
@@ -29,9 +30,19 @@ class WebpackPwaManifest {
         if (!_this.htmlPlugin) _this.htmlPlugin = true
         buildResources(_this, compilation.options.output.publicPath, () => {
           if (_this.options.inject) {
+            const tags = generateAppleTags(_this.options, _this.assets)
+            const themeColorTag = {
+              name: 'theme-color',
+              content: _this.options['theme-color'] || _this.options.theme_color
+            }
+            if (themeColorTag.content) applyTag(tags, 'meta', themeColorTag)
+            applyTag(tags, 'link', {
+              rel: 'manifest',
+              href: _this.options.filename
+            })
             htmlPluginData.html = htmlPluginData.html.replace(
               /(<\/head>)/i,
-              `<link rel="manifest" href="${_this.options.filename}" /></head>`
+              `${generateHtmlTags(tags)}</head>`
             )
           }
           callback(null, htmlPluginData)

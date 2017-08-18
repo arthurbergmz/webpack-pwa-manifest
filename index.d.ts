@@ -32,16 +32,30 @@ declare namespace WebpackPwaManifest {
         short_name?: string;
         start_url?: string;
         theme_color?: string;
+        'theme-color'?: string;
+        ios?: boolean | IosOptions;
     }
     interface RelatedApplications {
         platform?: string;
         url: string;
         id?: string;
     }
+    interface IosOptions {
+        'apple-touch-icon'?: string | IosAppleTouchIcon;
+        'apple-touch-startup-image'?: string;
+        'apple-mobile-web-app-title'?: string;
+        'apple-mobile-web-app-capable'?: 'yes' | 'no' | boolean;
+        'apple-mobile-web-app-status-bar-style'?: 'default' | 'black' | 'black-translucent';
+    }
+    interface IosAppleTouchIcon {
+        sizes?: string | number;
+        href: string;
+    }
     interface Icon {
         src: string;
         size?: string | number;
         sizes?: number[];
         destination?: string;
+        ios?: boolean | 'default';
     }
 }

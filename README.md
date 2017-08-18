@@ -130,16 +130,29 @@ Presets of `options`:
   display: "standalone",
   start_url: ".",
   inject: true,
-  fingerprints: true
+  fingerprints: true,
+  ios: false
 }
 ```
 
 By default, HTML injection and fingerprint generation are on.
 With `inject: false` and `fingerprints: false`, respectively, you can turn them off.
 
+If `inject: true` and `'theme-color'` property is not defined, it wil try to use `theme_color` as default. Otherwise, no `theme-color` meta tag will be injected.
+
+When `inject: true` and `ios: true`, specific Apple meta tags will be injected to the HTML code when possible, as requested at [issue #13](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/13). You can see Apple's [Configuring Web Application](https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html) for more information. Instead of using a boolean value, you can also use an object to specify certain link or meta tag, for instance:
+
+```javascript
+  ...
+  ios: {
+    'apple-mobile-web-app-title': 'AppTitle',
+    'apple-mobile-web-app-status-bar-style': 'black'
+  }
+```
+
 This plugin also supports the [Webpack's public path](https://webpack.js.org/configuration/output/#output-publicpath) definition.
 
-When defining an icon object, you can also specify its output directory using a property called `destination`.
+When defining an icon object, you can also specify its output directory using a property called `destination`. Using `ios: true` in an icon object makes it eligible to the `apple-touch-icon` meta tag injection. Using `ios: 'startup'` in an icon object makes it eligible to the `apple-touch-startup-image` meta tag injection.
 
 ```javascript
   ...
@@ -147,7 +160,14 @@ When defining an icon object, you can also specify its output directory using a 
     {
       src: path.resolve('src/assets/icons/ios-icon.png'),
       sizes: [120, 152, 167, 180, 1024],
-      destination: path.join('icons', 'ios')
+      destination: path.join('icons', 'ios'),
+      ios: true
+    },
+    {
+      src: path.resolve('src/assets/icons/ios-icon.png'),
+      size: 1024,
+      destination: path.join('icons', 'ios'),
+      ios: 'startup'
     },
     {
       src: path.resolve('src/assets/icons/android-icon.png'),
@@ -156,3 +176,4 @@ When defining an icon object, you can also specify its output directory using a 
     }
   ]
 }
+```

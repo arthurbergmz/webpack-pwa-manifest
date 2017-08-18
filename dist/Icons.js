@@ -62,7 +62,8 @@ function sanitizeIcon(iconSnippet) {
   return {
     src: iconSnippet.src,
     sizes: sizes,
-    destination: iconSnippet.destination
+    destination: iconSnippet.destination,
+    ios: iconSnippet.ios || false
   };
 }
 
@@ -77,15 +78,21 @@ function process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publi
         var sizeFormat = size + 'x' + size;
         var filename = fingerprint ? 'icon_' + sizeFormat + '.' + (0, _Fingerprint2.default)(buffer) + '.' + _mime2.default.extension(type) : 'icon_' + sizeFormat + '.' + _mime2.default.extension(type);
         var output = icon.destination ? (0, _URI.joinURI)(icon.destination, filename) : filename;
+        var outputSource = (0, _URI.joinURI)(publicPath, output);
         icons.push({
-          src: (0, _URI.joinURI)(publicPath, output),
+          src: outputSource,
           sizes: sizeFormat,
           type: type
         });
         assets.push({
           output: output,
           source: buffer,
-          size: buffer.length
+          size: buffer.length,
+          ios: icon.ios ? {
+            valid: icon.ios,
+            size: sizeFormat,
+            href: outputSource
+          } : false
         });
         if (sizes.length > 0) {
           process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback // next size

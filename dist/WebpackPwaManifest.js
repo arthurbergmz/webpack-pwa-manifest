@@ -33,7 +33,8 @@ var WebpackPwaManifest = function () {
       display: 'standalone',
       start_url: '.',
       inject: true,
-      fingerprints: true
+      fingerprints: true,
+      ios: false
     }, options || {});
     (0, _Versioning2.default)(this.options, 'useWebpackPublicPath');
     this.options.short_name = this.options.short_name || this.options.name;
@@ -50,7 +51,17 @@ var WebpackPwaManifest = function () {
           if (!_this.htmlPlugin) _this.htmlPlugin = true;
           (0, _Injector.buildResources)(_this, compilation.options.output.publicPath, function () {
             if (_this.options.inject) {
-              htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, '<link rel="manifest" href="' + _this.options.filename + '" /></head>');
+              var tags = (0, _Injector.generateAppleTags)(_this.options, _this.assets);
+              var themeColorTag = {
+                name: 'theme-color',
+                content: _this.options['theme-color'] || _this.options.theme_color
+              };
+              if (themeColorTag.content) (0, _Injector.applyTag)(tags, 'meta', themeColorTag);
+              (0, _Injector.applyTag)(tags, 'link', {
+                rel: 'manifest',
+                href: _this.options.filename
+              });
+              htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, (0, _Injector.generateHtmlTags)(tags) + '</head>');
             }
             callback(null, htmlPluginData);
           });

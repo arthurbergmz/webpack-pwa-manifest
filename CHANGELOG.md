@@ -1,3 +1,11 @@
+## 3.2.0 (2017-08-18)
+
+- Added Apple's Web Application injection. See more information at [issue #13](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/13);
+- Added `theme-color` injection. See more information at [issue #18](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/18);
+- Added `ios` property into options.
+- Added `ios` property into icon options.
+- See README.md for detailed information about the new `ios` property.
+
 ## 3.1.6 (2017-07-28)
 
 - Fixed misbehavior with protocols' slashes. See more information at [issue #16](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/16).

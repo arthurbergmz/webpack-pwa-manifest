@@ -17,7 +17,8 @@ function sanitizeIcon (iconSnippet) {
   return {
     src: iconSnippet.src,
     sizes,
-    destination: iconSnippet.destination
+    destination: iconSnippet.destination,
+    ios: iconSnippet.ios || false
   }
 }
 
@@ -32,15 +33,21 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publ
         const sizeFormat = `${size}x${size}`
         const filename = fingerprint ? `icon_${sizeFormat}.${generateFingerprint(buffer)}.${mime.extension(type)}` : `icon_${sizeFormat}.${mime.extension(type)}`
         const output = icon.destination ? joinURI(icon.destination, filename) : filename
+        const outputSource = joinURI(publicPath, output)
         icons.push({
-          src: joinURI(publicPath, output),
+          src: outputSource,
           sizes: sizeFormat,
           type
         })
         assets.push({
           output,
           source: buffer,
-          size: buffer.length
+          size: buffer.length,
+          ios: icon.ios ? {
+            valid: icon.ios,
+            size: sizeFormat,
+            href: outputSource
+          } : false
         })
         if (sizes.length > 0) {
           process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback) // next size
