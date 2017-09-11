@@ -131,7 +131,8 @@ Presets of `options`:
   start_url: ".",
   inject: true,
   fingerprints: true,
-  ios: false
+  ios: false,
+  publicPath: null
 }
 ```
 
@@ -150,7 +151,7 @@ When `inject: true` and `ios: true`, specific Apple meta tags will be injected t
   }
 ```
 
-This plugin also supports the [Webpack's public path](https://webpack.js.org/configuration/output/#output-publicpath) definition.
+If `publicPath` option is not given, this plugin fallbacks to [Webpack's public path](https://webpack.js.org/configuration/output/#output-publicpath) definition.
 
 When defining an icon object, you can also specify its output directory using a property called `destination`. Using `ios: true` in an icon object makes it eligible to the `apple-touch-icon` meta tag injection. Using `ios: 'startup'` in an icon object makes it eligible to the `apple-touch-startup-image` meta tag injection.
 

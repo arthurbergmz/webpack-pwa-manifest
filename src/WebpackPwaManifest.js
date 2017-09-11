@@ -15,7 +15,8 @@ class WebpackPwaManifest {
       start_url: '.',
       inject: true,
       fingerprints: true,
-      ios: false
+      ios: false,
+      publicPath: null
     }, options || {})
     checkDeprecated(this.options, 'useWebpackPublicPath')
     this.options.short_name = this.options.short_name || this.options.name
@@ -28,7 +29,7 @@ class WebpackPwaManifest {
     compiler.plugin('compilation', (compilation) => {
       compilation.plugin('html-webpack-plugin-before-html-processing', function (htmlPluginData, callback) {
         if (!_this.htmlPlugin) _this.htmlPlugin = true
-        buildResources(_this, compilation.options.output.publicPath, () => {
+        buildResources(_this, _this.options.publicPath || compilation.options.output.publicPath, () => {
           if (_this.options.inject) {
             const tags = generateAppleTags(_this.options, _this.assets)
             const themeColorTag = {
@@ -53,7 +54,7 @@ class WebpackPwaManifest {
       if (_this.htmlPlugin) {
         injectResources(compilation, _this.assets, callback)
       } else {
-        buildResources(_this, compilation.options.output.publicPath, () => {
+        buildResources(_this, _this.options.publicPath || compilation.options.output.publicPath, () => {
           injectResources(compilation, _this.assets, callback)
         })
       }
