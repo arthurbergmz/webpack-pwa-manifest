@@ -1,3 +1,7 @@
+## 3.3.0 (2017-09-12)
+
+- Added 'publicPath' option. See more information at [issue #20](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/20).
+
 ## 3.2.0 (2017-08-18)
 
 - Added Apple's Web Application injection. See more information at [issue #13](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/13);
