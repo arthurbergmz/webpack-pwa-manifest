@@ -34,7 +34,8 @@ var WebpackPwaManifest = function () {
       start_url: '.',
       inject: true,
       fingerprints: true,
-      ios: false
+      ios: false,
+      publicPath: null
     }, options || {});
     (0, _Versioning2.default)(this.options, 'useWebpackPublicPath');
     this.options.short_name = this.options.short_name || this.options.name;
@@ -49,7 +50,7 @@ var WebpackPwaManifest = function () {
       compiler.plugin('compilation', function (compilation) {
         compilation.plugin('html-webpack-plugin-before-html-processing', function (htmlPluginData, callback) {
           if (!_this.htmlPlugin) _this.htmlPlugin = true;
-          (0, _Injector.buildResources)(_this, compilation.options.output.publicPath, function () {
+          (0, _Injector.buildResources)(_this, _this.options.publicPath || compilation.options.output.publicPath, function () {
             if (_this.options.inject) {
               var tags = (0, _Injector.generateAppleTags)(_this.options, _this.assets);
               var themeColorTag = {
@@ -71,7 +72,7 @@ var WebpackPwaManifest = function () {
         if (_this.htmlPlugin) {
           (0, _Injector.injectResources)(compilation, _this.assets, callback);
         } else {
-          (0, _Injector.buildResources)(_this, compilation.options.output.publicPath, function () {
+          (0, _Injector.buildResources)(_this, _this.options.publicPath || compilation.options.output.publicPath, function () {
             (0, _Injector.injectResources)(compilation, _this.assets, callback);
           });
         }
