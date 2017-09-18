@@ -95,15 +95,12 @@ function process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publi
           } : false
         });
         if (sizes.length > 0) {
-          process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback // next size
-          );
+          process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback); // next size
         } else if (cachedIconsCopy.length > 0) {
           var next = cachedIconsCopy.pop();
-          process(next.sizes, next, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback // next icon
-          );
+          process(next.sizes, next, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback); // next icon
         } else {
-          callback(null, { icons: icons, assets: assets } // there are no more icons left
-          );
+          callback(null, { icons: icons, assets: assets }); // there are no more icons left
         }
       });
     });
