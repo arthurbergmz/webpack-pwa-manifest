@@ -1,4 +1,4 @@
-## 3.3.1 (2017-09-18)
+## 3.3.1/3.3.2 (2017-09-18)
 
 - Fixed URI generation. See more information at [issue #23](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/23).
 
