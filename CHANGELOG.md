@@ -1,3 +1,7 @@
+## 3.3.1 (2017-09-18)
+
+- Fixed URI generation. See more information at [issue #23](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/23).
+
 ## 3.3.0 (2017-09-12)
 
 - Added 'publicPath' option. See more information at [issue #20](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/20).
