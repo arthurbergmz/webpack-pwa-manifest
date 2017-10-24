@@ -8,7 +8,7 @@ class WebpackPwaManifest {
     validatePresets(options, 'dir', 'display', 'orientation')
     validateColors(options, 'background_color', 'theme_color')
     this.options = Object.assign({
-      filename: 'manifest.json',
+      filename: '/manifest.json',
       name: 'App',
       orientation: 'portrait',
       display: 'standalone',
