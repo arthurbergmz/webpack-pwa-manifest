@@ -38,7 +38,10 @@ function manifest (options, publicPath, icons, callback) {
   delete content.ios
   const json = JSON.stringify(content, null, 2)
   const filename = path.parse(options.filename)
-  const output = options.fingerprints ? `${filename.name}.${generateFingerprint(json)}${filename.ext}` : `${filename.name}${filename.ext}`
+  const output = path.join(
+      filename.dir,
+      options.fingerprints ? `${filename.name}.${generateFingerprint(json)}${filename.ext}` : `${filename.name}${filename.ext}`
+  )
   callback(null, {
     output,
     file: joinURI(publicPath, output),

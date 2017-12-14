@@ -48,7 +48,7 @@ function manifest(options, publicPath, icons, callback) {
   delete content.ios;
   var json = JSON.stringify(content, null, 2);
   var filename = _path2.default.parse(options.filename);
-  var output = options.fingerprints ? filename.name + '.' + (0, _Fingerprint2.default)(json) + filename.ext : '' + filename.name + filename.ext;
+  var output = _path2.default.join(filename.dir, options.fingerprints ? filename.name + '.' + (0, _Fingerprint2.default)(json) + filename.ext : '' + filename.name + filename.ext);
   callback(null, {
     output: output,
     file: (0, _URI.joinURI)(publicPath, output),
