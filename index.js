@@ -1,1 +1,1 @@
-module.exports = require('./dist/WebpackPwaManifest')
+module.exports = require('./dist/index.js')

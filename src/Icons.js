@@ -1,7 +1,7 @@
 import jimp from 'jimp'
 import mime from 'mime'
-import { joinURI } from './URI'
-import generateFingerprint from './Fingerprint'
+import { joinURI } from './helpers/uri'
+import generateFingerprint from './helpers/fingerprint'
 import IconError from './errors/IconError'
 
 function parseArray (i) {

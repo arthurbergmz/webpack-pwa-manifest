@@ -3,10 +3,9 @@ const deprecated = {
 }
 
 export default function (options, ...properties) {
-  for (let property of properties) {
+  for (const property of properties) {
     if (options[property]) {
       console.log(`"${property}" is a deprecated option. Read more at "${deprecated[property]}".`)
-      delete options[property]
     }
   }
 }

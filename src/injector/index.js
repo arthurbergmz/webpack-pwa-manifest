@@ -1,7 +1,8 @@
 import path from 'path'
-import generateFingerprint from './Fingerprint'
-import { joinURI, normalizeURI } from './URI'
-import { retrieveIcons, parseIcons } from './Icons'
+import generateFingerprint from '../helpers/fingerprint'
+import { joinURI } from '../helpers/uri'
+import { retrieveIcons, parseIcons } from '../icons'
+import except from '../helpers/except'
 
 const voidTags = [
   'area',
@@ -31,11 +32,7 @@ const appleTags = {
 }
 
 function manifest (options, publicPath, icons, callback) {
-  const content = Object.assign({ icons }, options)
-  delete content.filename
-  delete content.inject
-  delete content.fingerprints
-  delete content.ios
+  const content = except(Object.assign({ icons }, options), ['filename', 'inject', 'fingerprints', 'ios', 'publicPath', 'icon', 'useWebpackPublicPath'])
   const json = JSON.stringify(content, null, 2)
   const filename = path.parse(options.filename)
   const output = path.join(
