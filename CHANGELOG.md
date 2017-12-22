@@ -1,3 +1,11 @@
+## 3.4.1 (2017-12-22)
+
+- Fixed file convention. See more information at [pull request #31](https://github.com/arthurbergmz/webpack-pwa-manifest/pull/31).
+
+## 3.4.0 (2017-12-22)
+
+- Added `useDirectory`. See more information at this [issue #30](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/30) and this [pull request #29](https://github.com/arthurbergmz/webpack-pwa-manifest/pull/29).
+
 ## 3.3.1/3.3.2 (2017-09-18)
 
 - Fixed URI generation. See more information at [issue #23](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/23).
