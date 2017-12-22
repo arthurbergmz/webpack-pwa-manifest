@@ -43,10 +43,7 @@ class WebpackPwaManifest {
               rel: 'manifest',
               href: that.options.filename
             })
-            htmlPluginData.html = htmlPluginData.html.replace(
-              /(<\/head>)/i,
-              `${generateHtmlTags(tags)}</head>`
-            )
+            htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, `${generateHtmlTags(tags)}</head>`)
           }
           callback(null, htmlPluginData)
         })

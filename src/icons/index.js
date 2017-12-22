@@ -1,8 +1,8 @@
 import jimp from 'jimp'
 import mime from 'mime'
-import { joinURI } from './helpers/uri'
-import generateFingerprint from './helpers/fingerprint'
-import IconError from './errors/IconError'
+import { joinURI } from '../helpers/uri'
+import generateFingerprint from '../helpers/fingerprint'
+import IconError from '../errors/IconError'
 
 function parseArray (i) {
   return i && !Array.isArray(i) ? [i] : i

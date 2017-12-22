@@ -16,7 +16,6 @@ function run (name, next) {
       if (err) throw err
       const testTree = tree.filter((i) => /.*\..+/.test(i))
       const testContent = testTree.map((i) => i.substring(testPathLength))
-      for (const i of testContent) console.log(i)
       const testContentLength = testContent.length
       const outputPath = path.join(__dirname, name, 'output')
       const outputPathLength = outputPath.length
@@ -25,15 +24,11 @@ function run (name, next) {
         const outputContent = outputTree.filter((i) => /.*\..+/.test(i))
         const outputContentLength = outputContent.length
         if (testContentLength === outputContentLength) {
-          console.log(testContentLength)
           const result = outputContent.reduce((previous, current) => {
             const p = current.substring(outputPathLength)
             const f = testContent.indexOf(p)
-            console.log(p)
-            console.log(fs.readFileSync(current).equals(fs.readFileSync(testTree[f])))
             return f > -1 && fs.readFileSync(current).equals(fs.readFileSync(testTree[f])) ? previous + 1 : previous
           }, 0)
-          console.log(result)
           if (result === testContentLength) {
             console.log(`Test "${name}" passed.`)
             run(next.shift(), next)
