@@ -4,7 +4,7 @@
 
 ## 3.4.0 (2017-12-22)
 
-- Added `useDirectory`. See more information at this [issue #30](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/30) and this [pull request #29](https://github.com/arthurbergmz/webpack-pwa-manifest/pull/29).
+- Added `includeDirectory`. See more information at this [issue #30](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/30) and this [pull request #29](https://github.com/arthurbergmz/webpack-pwa-manifest/pull/29).
 
 ## 3.3.1/3.3.2 (2017-09-18)
 
