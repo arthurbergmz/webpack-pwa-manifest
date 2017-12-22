@@ -1,7 +1,7 @@
 import path from 'path'
 import generateFingerprint from '../helpers/fingerprint'
 import { joinURI } from '../helpers/uri'
-import { retrieveIcons, parseIcons } from '../icons'
+import { retrieveIcons, parseIcons } from '../Icons'
 import except from '../helpers/except'
 
 const voidTags = [
