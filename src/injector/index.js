@@ -32,13 +32,11 @@ const appleTags = {
 }
 
 function manifest (options, publicPath, icons, callback) {
-  const content = except(Object.assign({ icons }, options), ['filename', 'inject', 'fingerprints', 'ios', 'publicPath', 'icon', 'useWebpackPublicPath'])
+  const content = except(Object.assign({ icons }, options), ['filename', 'inject', 'fingerprints', 'ios', 'publicPath', 'icon', 'useWebpackPublicPath', 'includeDirectory'])
   const json = JSON.stringify(content, null, 2)
-  const filename = path.parse(options.filename)
-  const output = path.join(
-      filename.dir,
-      options.fingerprints ? `${filename.name}.${generateFingerprint(json)}${filename.ext}` : `${filename.name}${filename.ext}`
-  )
+  const file = path.parse(options.filename)
+  const filename = options.fingerprints ? `${file.name}.${generateFingerprint(json)}${file.ext}` : `${file.name}${file.ext}`
+  const output = options.includeDirectory ? path.join(file.dir, filename) : filename
   callback(null, {
     output,
     file: joinURI(publicPath, output),

@@ -21,7 +21,8 @@ class WebpackPwaManifest {
       inject: true,
       fingerprints: true,
       ios: false,
-      publicPath: null
+      publicPath: null,
+      includeDirectory: true
     }, options)
   }
 
