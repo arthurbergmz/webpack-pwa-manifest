@@ -31,11 +31,30 @@ const appleTags = {
   'apple-mobile-web-app-status-bar-style': 'meta'
 }
 
+function createFilename (filenameTemplate, json) {
+  const formatters = [{
+    pattern: /\[hash(:\d{1,2})?\]/gi,
+    value: (match, limit = ':32') => {
+      const hash = generateFingerprint(json)
+      limit = hash.length - parseInt(limit.substr(1), 10)
+      return hash.substr(limit)
+    }
+  }, {
+    pattern: /\[ext\]/gi,
+    value: '.json'
+  }, {
+    pattern: /\[name\]/gi,
+    value: 'manifest'
+  }]
+
+  return formatters.reduce((acc, curr) => acc.replace(curr.pattern, curr.value), filenameTemplate)
+}
+
 function manifest (options, publicPath, icons, callback) {
   const content = except(Object.assign({ icons }, options), ['filename', 'inject', 'fingerprints', 'ios', 'publicPath', 'icon', 'useWebpackPublicPath', 'includeDirectory'])
   const json = JSON.stringify(content, null, 2)
   const file = path.parse(options.filename)
-  const filename = options.fingerprints ? `${file.name}.${generateFingerprint(json)}${file.ext}` : `${file.name}${file.ext}`
+  const filename = createFilename(options.filename, json)
   const output = options.includeDirectory ? path.join(file.dir, filename) : filename
   callback(null, {
     output,
