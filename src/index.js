@@ -12,7 +12,7 @@ class WebpackPwaManifest {
     this.htmlPlugin = false
     const shortName = options.short_name || options.name || 'App'
     this.options = Object.assign({
-      filename: 'manifest.json',
+      filename: '[name].[hash][ext]',
       name: 'App',
       short_name: shortName,
       orientation: 'portrait',
