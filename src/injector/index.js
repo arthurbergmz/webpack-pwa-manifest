@@ -37,7 +37,7 @@ function createFilename (filenameTemplate, json) {
     value: (match, limit = ':32') => {
       const hash = generateFingerprint(json)
       limit = hash.length - parseInt(limit.substr(1), 10)
-      return hash.substr(limit)
+      return hash.substr(0, limit)
     }
   }, {
     pattern: /\[ext\]/gi,
