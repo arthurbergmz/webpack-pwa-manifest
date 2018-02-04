@@ -18,8 +18,8 @@ function hasPreset (key, value) {
 
 export default function (config, ...properties) {
   if (!config) return
-  for (let property of properties) {
-    let value = config[property]
+  properties.forEach((property) => {
+    const value = config[property]
     if (value && !hasPreset(property, value)) throw new PresetError(property, value)
-  }
+  })
 }

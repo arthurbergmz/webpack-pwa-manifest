@@ -1,63 +1,25 @@
 import validatePresets from './validators/presets'
 import validateColors from './validators/colors'
-import checkDeprecated from './validators/versioning'
-import { buildResources, injectResources, generateHtmlTags, generateAppleTags, applyTag } from './injector'
+import { checkDeprecated, checkBreakingChange } from './validators/versioning'
+import { defaultManifest, defaultPlugin } from './options'
 
 class WebpackPwaManifest {
-  constructor (options = {}) {
-    validatePresets(options, 'dir', 'display', 'orientation')
-    validateColors(options, 'background_color', 'theme_color')
-    checkDeprecated(options, 'useWebpackPublicPath')
-    this.assets = null
-    this.htmlPlugin = false
-    const shortName = options.short_name || options.name || 'App'
-    this.options = Object.assign({
-      filename: '[name].[hash][ext]',
-      name: 'App',
-      short_name: shortName,
-      orientation: 'portrait',
-      display: 'standalone',
-      start_url: '.',
-      inject: true,
-      fingerprints: true,
-      ios: false,
-      publicPath: null,
-      includeDirectory: true
-    }, options)
+  constructor (manifestOptions = {}, pluginOptions = {}) {
+    this._generator = null
+    this.pluginOptions = checkDeprecated(Object.assign({}, defaultPlugin, checkBreakingChange(manifestOptions), pluginOptions), 'useWebpackPublicPath')
+    validatePresets(manifestOptions, 'dir', 'display', 'orientation')
+    validateColors(manifestOptions, 'background_color', 'theme_color')
+    this.manifestOptions = Object.assign({ short_name: manifestOptions.short_name || manifestOptions.name || 'App' }, defaultManifest, manifestOptions)
+  }
+
+  _acquireGenerator (hooks) {
+    return hooks ? require('./generators/tapable') : require('./generators/legacy')
   }
 
   apply (compiler) {
-    const that = this
-    compiler.plugin('compilation', (compilation) => {
-      compilation.plugin('html-webpack-plugin-before-html-processing', function (htmlPluginData, callback) {
-        if (!that.htmlPlugin) that.htmlPlugin = true
-        buildResources(that, that.options.publicPath || compilation.options.output.publicPath, () => {
-          if (that.options.inject) {
-            const tags = generateAppleTags(that.options, that.assets)
-            const themeColorTag = {
-              name: 'theme-color',
-              content: that.options['theme-color'] || that.options.theme_color
-            }
-            if (themeColorTag.content) applyTag(tags, 'meta', themeColorTag)
-            applyTag(tags, 'link', {
-              rel: 'manifest',
-              href: that.options.filename
-            })
-            htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, `${generateHtmlTags(tags)}</head>`)
-          }
-          callback(null, htmlPluginData)
-        })
-      })
-    })
-    compiler.plugin('emit', (compilation, callback) => {
-      if (that.htmlPlugin) {
-        injectResources(compilation, that.assets, callback)
-      } else {
-        buildResources(that, that.options.publicPath || compilation.options.output.publicPath, () => {
-          injectResources(compilation, that.assets, callback)
-        })
-      }
-    })
+    const { hooks } = compiler
+    const generator = this._generator || (this._generator = this._acquireGenerator(hooks)(this.manifestOptions, this.pluginOptions))
+    generator(compiler)
   }
 }
 
