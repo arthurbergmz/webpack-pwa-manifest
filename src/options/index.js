@@ -6,10 +6,9 @@ export const defaultManifest = {
 }
 
 export const defaultPlugin = {
-  outputFile: 'manifest.json',
+  outputFile: 'manifest.[hash].json',
+  iconFile: 'icon_[size].[hash][ext]',
   inject: true,
-  fingerprints: true,
-  ios: false,
   publicPath: null,
   includeDirectory: true
 }

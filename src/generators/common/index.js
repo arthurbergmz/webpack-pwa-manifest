@@ -1,34 +1,28 @@
-export function beforeHtmlProcessing (manifestOptions, pluginOptions) {
+import parse from './parse'
+import manifest from './manifest'
+import customTags from './customTags'
+import { iconBuilder } from '../../builders/index'
+
+export function beforeHtmlProcessing (config, manifestOptions, pluginOptions, publicPath) {
   return (htmlPluginData, callback) => {
-    if (!htmlPlugin) htmlPlugin = true
-    buildResources(that, publicPath, () => {
-      if (that.options.inject) {
-        const tags = generateAppleTags(that.options, assets)
-        const themeColorTag = {
-          name: 'theme-color',
-          content: manifestOptions['theme-color'] || manifestOptions.theme_color
-        }
-        if (themeColorTag.content) applyTag(tags, 'meta', themeColorTag)
-        applyTag(tags, 'link', {
-          rel: 'manifest',
-          href: that.options.filename
-        })
-        htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, `${generateHtmlTags(tags)}</head>`)
-      }
-      callback(null, htmlPluginData)
-    })
+    if (!config.htmlPlugin) config.htmlPlugin = true
+    parse(publicPath, manifestOptions, pluginOptions)
+      // .then(manifest(pluginOptions))
+      // .then(customTags(pluginOptions))
+      // .then(injectCustomTags)
+      .then(callback)
   }
 }
 
-export function emit (config, { publicPath: pluginPublicPath }) {
+export function emit (config, pluginPublicPath) {
   return (compilation, callback) => {
     if (config.htmlPlugin) {
-      injectResources(compilation, config.assets, callback)
+      // injectResources(compilation, config.assets, callback)
     } else {
-      const publicPath = pluginPublicPath || compilation.options.output.publicPath
-      buildResources(that, publicPath, () => {
-        injectResources(compilation, config.assets, callback)
-      })
+      const publicPath = pluginPublicPath.publicPath || compilation.options.output.publicPath
+      // buildResources(that, publicPath, () => {
+      //   injectResources(compilation, config.assets, callback)
+      // })
     }
   }
 }

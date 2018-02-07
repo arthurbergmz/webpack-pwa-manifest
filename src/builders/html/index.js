@@ -19,26 +19,7 @@ const voidTags = [
   'wbr'
 ]
 
-export function generateHtmlTags (tags) {
-  let html = ''
-  for (let tag in tags) {
-    const attrs = tags[tag]
-    if (Array.isArray(attrs)) {
-      for (let a of attrs) {
-        html = `${html}${generateHtmlTags({ [tag]: a })}`
-      }
-    } else {
-      html = `${html}<${tag}`
-      for (let attr in attrs) {
-        html = `${html} ${attr}="${attrs[attr]}"`
-      }
-      html = voidTags.indexOf(tag) === -1 ? `${html}></${tag}>` : `${html} />`
-    }
-  }
-  return html
-}
-
-export function applyTag (obj, tag, content) {
+export function addTag (obj, tag, content) {
   if (!content) return
   if (obj[tag]) {
     if (Array.isArray(obj[tag])) {
@@ -49,4 +30,17 @@ export function applyTag (obj, tag, content) {
   } else {
     obj[tag] = content
   }
+}
+
+export function parseTags (tags) {
+  return Object.keys(tags).reduce((html, tag) => {
+    const attrs = tags[tag]
+    if (Array.isArray(attrs)) {
+      return attrs.reduce((previousHtml, attr) => `${previousHtml}${parseTags({ [tag]: attr })}`, html)
+    } else {
+      const attributes = Object.keys(attrs).reduce((previousAttributes, attr) => `${previousAttributes} ${attr}="${attrs[attr]}"`, '')
+      const closing = voidTags.indexOf(tag) === -1 ? `></${tag}` : ' /'
+      return `${html}<${tag}${attributes}${closing}>`
+    }
+  }, '')
 }
