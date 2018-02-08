@@ -127,6 +127,18 @@ export function generateAppleTags (options, assets) {
   return tags
 }
 
+export function generateMaskIconLink(tags, assets) {
+  const svgAsset = assets.find((asset) => /[^.]+$/.exec(asset.output)[0] === 'svg')
+  if (svgAsset) {
+    console.log('svgAsset.color', svgAsset.color)
+    applyTag(tags, 'link', Object.assign({
+      rel: 'mask-icon',
+      href: svgAsset.output
+    }, !!svgAsset.color && { color: svgAsset.color }))
+  }
+  return tags
+}
+
 function formatAppleTag (tag, content) {
   if (tag === 'apple-touch-icon') {
     if (typeof content === 'string') {
