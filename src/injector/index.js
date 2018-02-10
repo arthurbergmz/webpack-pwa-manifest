@@ -33,11 +33,10 @@ const appleTags = {
 
 function createFilename (filenameTemplate, json) {
   const formatters = [{
-    pattern: /\[hash(:\d{1,2})?\]/gi,
+    pattern: /\[hash(:([1-9]|[1-2][0-9]|3[0-2]))?\]/gi,
     value: (match, limit = ':32') => {
       const hash = generateFingerprint(json)
-      limit = hash.length - parseInt(limit.substr(1), 10)
-      return hash.substr(0, limit)
+      return hash.substr(0, parseInt(limit.substr(1), 10))
     }
   }, {
     pattern: /\[ext\]/gi,
