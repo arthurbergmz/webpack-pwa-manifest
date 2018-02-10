@@ -39,7 +39,13 @@ module.exports = {
           size: 1024,
           destination: 'icons',
           ios: true
-        }
+        },
+        {
+          src: path.resolve('./tests/icon.svg'),
+          sizes: 512,
+          destination: 'icons',
+          color: '#ffffff'
+        },
       ]
     })
   ]

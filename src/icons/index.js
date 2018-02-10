@@ -1,8 +1,11 @@
+import fs from 'fs'
 import jimp from 'jimp'
 import mime from 'mime'
 import { joinURI } from '../helpers/uri'
 import generateFingerprint from '../helpers/fingerprint'
 import IconError from '../errors/IconError'
+
+const supportedMimeTypes = [jimp.MIME_PNG, jimp.MIME_JPEG, jimp.MIME_BMP];
 
 function parseArray (i) {
   return i && !Array.isArray(i) ? [i] : i
@@ -18,45 +21,69 @@ function sanitizeIcon (iconSnippet) {
     src: iconSnippet.src,
     sizes,
     destination: iconSnippet.destination,
-    ios: iconSnippet.ios || false
+    ios: iconSnippet.ios || false,
+    color: iconSnippet.color
+  }
+}
+
+function processIcon (currentSize, icon, buffer, mimeType, publicPath, shouldFingerprint) {
+  const dimensions = `${currentSize}x${currentSize}`
+  const fileName = shouldFingerprint ? `icon_${dimensions}.${generateFingerprint(buffer)}.${mime.extension(mimeType)}` : `icon_${dimensions}.${mime.extension(mimeType)}`
+  const iconOutputDir = icon.destination ? joinURI(icon.destination, fileName) : fileName
+  const iconPublicUrl = joinURI(publicPath, iconOutputDir)
+  console.log('webpackAsset.color', icon.color)
+  return {
+    manifestIcon: {
+      src: iconPublicUrl,
+      sizes: dimensions,
+      type: mimeType
+    },
+    webpackAsset: {
+      output: iconOutputDir,
+      source: buffer,
+      size: buffer.length,
+      ios: icon.ios ? { valid: icon.ios, size: dimensions, href: iconPublicUrl } : false,
+      color: icon.color
+    }
   }
 }
 
 function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback) {
+  const processNext = function() {
+    if (sizes.length > 0) {
+      return process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback) // next size
+    } else if (cachedIconsCopy.length > 0) {
+      const next = cachedIconsCopy.pop()
+      return process(next.sizes, next, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback) // next icon
+    } else {
+      return callback(null, { icons, assets }) // there are no more icons left
+    }
+  }
+
   const size = sizes.pop()
   if (size > 0) {
-    const type = mime.lookup(icon.src)
+    const mimeType = mime.lookup(icon.src)
+    if (!supportedMimeTypes.includes(mimeType)) {
+      let buffer;
+      try {
+        buffer = fs.readFileSync(icon.src)
+      } catch (err) {
+        throw new IconError(`It was not possible to read '${icon.src}'.`)
+      }
+      const processedIcon = processIcon(size, icon, buffer, mimeType, publicPath, fingerprint)
+      icons.push(processedIcon.manifestIcon)
+      assets.push(processedIcon.webpackAsset)
+      return processNext();
+    }
+
     jimp.read(icon.src, (err, img) => {
       if (err) throw new IconError(`It was not possible to read '${icon.src}'.`)
-      img.resize(size, size).getBuffer(type, (err, buffer) => {
+      img.resize(size, size).getBuffer(mimeType, (err, buffer) => {
         if (err) throw new IconError(`It was not possible to retrieve buffer of '${icon.src}'.`)
-        const sizeFormat = `${size}x${size}`
-        const filename = fingerprint ? `icon_${sizeFormat}.${generateFingerprint(buffer)}.${mime.extension(type)}` : `icon_${sizeFormat}.${mime.extension(type)}`
-        const output = icon.destination ? joinURI(icon.destination, filename) : filename
-        const outputSource = joinURI(publicPath, output)
-        icons.push({
-          src: outputSource,
-          sizes: sizeFormat,
-          type
-        })
-        assets.push({
-          output,
-          source: buffer,
-          size: buffer.length,
-          ios: icon.ios ? {
-            valid: icon.ios,
-            size: sizeFormat,
-            href: outputSource
-          } : false
-        })
-        if (sizes.length > 0) {
-          process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback) // next size
-        } else if (cachedIconsCopy.length > 0) {
-          const next = cachedIconsCopy.pop()
-          process(next.sizes, next, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback) // next icon
-        } else {
-          callback(null, { icons, assets }) // there are no more icons left
-        }
+        const processedIcon = processIcon(size, icon, buffer, mimeType, publicPath, fingerprint)
+        icons.push(processedIcon.manifestIcon)
+        assets.push(processedIcon.webpackAsset)
+        return processNext();
       })
     })
   }

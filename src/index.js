@@ -1,7 +1,7 @@
 import validatePresets from './validators/presets'
 import validateColors from './validators/colors'
 import checkDeprecated from './validators/versioning'
-import { buildResources, injectResources, generateHtmlTags, generateAppleTags, applyTag } from './injector'
+import { buildResources, injectResources, generateHtmlTags, generateAppleTags, generateMaskIconLink, applyTag } from './injector'
 
 class WebpackPwaManifest {
   constructor (options = {}) {
@@ -33,7 +33,7 @@ class WebpackPwaManifest {
         if (!that.htmlPlugin) that.htmlPlugin = true
         buildResources(that, that.options.publicPath || compilation.options.output.publicPath, () => {
           if (that.options.inject) {
-            const tags = generateAppleTags(that.options, that.assets)
+            let tags = generateAppleTags(that.options, that.assets)
             const themeColorTag = {
               name: 'theme-color',
               content: that.options['theme-color'] || that.options.theme_color
@@ -43,6 +43,7 @@ class WebpackPwaManifest {
               rel: 'manifest',
               href: that.options.filename
             })
+            tags = generateMaskIconLink(tags, that.assets)
             htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, `${generateHtmlTags(tags)}</head>`)
           }
           callback(null, htmlPluginData)
