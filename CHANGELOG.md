@@ -1,3 +1,9 @@
+## 3.5.0 (2018-02-13)
+
+- Added filename template. Thanks to @kevinchappell ! See more information at [pull request #34](https://github.com/arthurbergmz/webpack-pwa-manifest/pull/34).
+- Added SVG support. Thanks to @acostalima ! See more information at [pull request #49](https://github.com/arthurbergmz/webpack-pwa-manifest/pull/49).
+- Fixed recursive filename. Thanks to @satazor ! See more information at [pull request #50](https://github.com/arthurbergmz/webpack-pwa-manifest/pull/50).
+
 ## 3.4.1 (2017-12-22)
 
 - Fixed file convention. See more information at [pull request #31](https://github.com/arthurbergmz/webpack-pwa-manifest/pull/31).

@@ -45,7 +45,7 @@ module.exports = {
           sizes: 512,
           destination: 'icons',
           color: '#ffffff'
-        },
+        }
       ]
     })
   ]
