@@ -31,7 +31,6 @@ function processIcon (currentSize, icon, buffer, mimeType, publicPath, shouldFin
   const fileName = shouldFingerprint ? `icon_${dimensions}.${generateFingerprint(buffer)}.${mime.extension(mimeType)}` : `icon_${dimensions}.${mime.extension(mimeType)}`
   const iconOutputDir = icon.destination ? joinURI(icon.destination, fileName) : fileName
   const iconPublicUrl = joinURI(publicPath, iconOutputDir)
-  console.log('webpackAsset.color', icon.color)
   return {
     manifestIcon: {
       src: iconPublicUrl,
@@ -40,6 +39,7 @@ function processIcon (currentSize, icon, buffer, mimeType, publicPath, shouldFin
     },
     webpackAsset: {
       output: iconOutputDir,
+      url: iconPublicUrl,
       source: buffer,
       size: buffer.length,
       ios: icon.ios ? { valid: icon.ios, size: dimensions, href: iconPublicUrl } : false,
