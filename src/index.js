@@ -41,7 +41,7 @@ class WebpackPwaManifest {
             if (themeColorTag.content) applyTag(tags, 'meta', themeColorTag)
             applyTag(tags, 'link', {
               rel: 'manifest',
-              href: that.options.filename
+              href: that.manifest.url,
             })
             tags = generateMaskIconLink(tags, that.assets)
             htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, `${generateHtmlTags(tags)}</head>`)

@@ -53,11 +53,11 @@ function manifest (options, publicPath, icons, callback) {
   const content = except(Object.assign({ icons }, options), ['filename', 'inject', 'fingerprints', 'ios', 'publicPath', 'icon', 'useWebpackPublicPath', 'includeDirectory'])
   const json = JSON.stringify(content, null, 2)
   const file = path.parse(options.filename)
-  const filename = createFilename(options.filename, json)
+  const filename = createFilename(file.base, json)
   const output = options.includeDirectory ? path.join(file.dir, filename) : filename
   callback(null, {
     output,
-    file: joinURI(publicPath, output),
+    url: joinURI(publicPath, output),
     source: json,
     size: json.length
   })
@@ -72,7 +72,7 @@ export function buildResources (_this, publicPath, callback) {
       if (err) return
       manifest(_this.options, publicPath, result.icons, (fail, manifest) => {
         if (fail) return
-        _this.options.filename = manifest.file
+        _this.manifest = manifest;
         _this.assets = [manifest, ...(result.assets || [])]
         callback()
       })
@@ -130,10 +130,9 @@ export function generateAppleTags (options, assets) {
 export function generateMaskIconLink(tags, assets) {
   const svgAsset = assets.find((asset) => /[^.]+$/.exec(asset.output)[0] === 'svg')
   if (svgAsset) {
-    console.log('svgAsset.color', svgAsset.color)
     applyTag(tags, 'link', Object.assign({
       rel: 'mask-icon',
-      href: svgAsset.output
+      href: svgAsset.url
     }, !!svgAsset.color && { color: svgAsset.color }))
   }
   return tags
