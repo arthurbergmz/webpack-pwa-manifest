@@ -1,6 +1,6 @@
 {
   "name": "webpack-pwa-manifest",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "description": "Progressive Web Application (PWA) Manifest Generator",
   "main": "index.js",
   "types": "index.d.ts",
@@ -38,9 +38,11 @@
     "babel-eslint": "^8.0.3",
     "babel-preset-env": "^1.6.1",
     "eslint": "^4.13.1",
-    "html-webpack-plugin": "^2.30.1",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-plugin": "file:../html-webpack-plugin",
     "list-directory-contents": "0.0.3",
-    "webpack": "^3.10.0"
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.9"
   },
   "files": [
     "dist",
