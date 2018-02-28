@@ -1,3 +1,7 @@
+## 3.6.0 (2018-02-27)
+
+- Added Webpack 4 support.
+
 ## 3.5.0 (2018-02-13)
 
 - Added filename template. Thanks to @kevinchappell ! See more information at [pull request #34](https://github.com/arthurbergmz/webpack-pwa-manifest/pull/34).
