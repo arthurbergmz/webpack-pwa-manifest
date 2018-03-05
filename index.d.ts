@@ -21,6 +21,7 @@ declare namespace WebpackPwaManifest {
         display?: Display;
         fingerprints?: boolean;
         filename?: string;
+        gcm_sender_id?: string;
         icons?: Icon | Icon[];
         inject?: boolean;
         lang?: string;
@@ -34,6 +35,7 @@ declare namespace WebpackPwaManifest {
         theme_color?: string;
         'theme-color'?: string;
         ios?: boolean | IosOptions;
+        publicPath?: string;
     }
     interface RelatedApplications {
         platform?: string;
