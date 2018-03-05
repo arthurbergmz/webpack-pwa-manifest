@@ -21,6 +21,7 @@ declare namespace WebpackPwaManifest {
         display?: Display;
         fingerprints?: boolean;
         filename?: string;
+        gcm_sender_id?: string;
         icons?: Icon | Icon[];
         inject?: boolean;
         lang?: string;
