@@ -35,6 +35,7 @@ declare namespace WebpackPwaManifest {
         theme_color?: string;
         'theme-color'?: string;
         ios?: boolean | IosOptions;
+        publicPath?: string;
     }
     interface RelatedApplications {
         platform?: string;
