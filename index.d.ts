@@ -26,6 +26,7 @@ declare namespace WebpackPwaManifest {
         lang?: string;
         name: string;
         orientation?: Orientation;
+        publicPath?: string;
         prefer_related_applications?: boolean;
         related_applications?: RelatedApplications[];
         scope?: string;

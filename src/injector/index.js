@@ -31,10 +31,11 @@ const appleTags = {
   'apple-mobile-web-app-status-bar-style': 'meta'
 }
 
-function createFilename (filenameTemplate, json) {
+function createFilename (filenameTemplate, json, shouldFingerprint) {
   const formatters = [{
     pattern: /\[hash(:([1-9]|[1-2][0-9]|3[0-2]))?\]/gi,
     value: (match, limit = ':32') => {
+      if (!shouldFingerprint) return ''
       const hash = generateFingerprint(json)
       return hash.substr(0, parseInt(limit.substr(1), 10))
     }
@@ -53,7 +54,7 @@ function manifest (options, publicPath, icons, callback) {
   const content = except(Object.assign({ icons }, options), ['filename', 'inject', 'fingerprints', 'ios', 'publicPath', 'icon', 'useWebpackPublicPath', 'includeDirectory'])
   const json = JSON.stringify(content, null, 2)
   const file = path.parse(options.filename)
-  const filename = createFilename(file.base, json)
+  const filename = createFilename(file.base, json, options.fingerprints)
   const output = options.includeDirectory ? path.join(file.dir, filename) : filename
   callback(null, {
     output,
@@ -72,7 +73,7 @@ export function buildResources (_this, publicPath, callback) {
       if (err) return
       manifest(_this.options, publicPath, result.icons, (fail, manifest) => {
         if (fail) return
-        _this.manifest = manifest;
+        _this.manifest = manifest
         _this.assets = [manifest, ...(result.assets || [])]
         callback()
       })
@@ -127,7 +128,7 @@ export function generateAppleTags (options, assets) {
   return tags
 }
 
-export function generateMaskIconLink(tags, assets) {
+export function generateMaskIconLink (tags, assets) {
   const svgAsset = assets.find((asset) => /[^.]+$/.exec(asset.output)[0] === 'svg')
   if (svgAsset) {
     applyTag(tags, 'link', Object.assign({

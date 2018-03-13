@@ -5,7 +5,7 @@ import { joinURI } from '../helpers/uri'
 import generateFingerprint from '../helpers/fingerprint'
 import IconError from '../errors/IconError'
 
-const supportedMimeTypes = [jimp.MIME_PNG, jimp.MIME_JPEG, jimp.MIME_BMP];
+const supportedMimeTypes = [jimp.MIME_PNG, jimp.MIME_JPEG, jimp.MIME_BMP]
 
 function parseArray (i) {
   return i && !Array.isArray(i) ? [i] : i
@@ -49,7 +49,7 @@ function processIcon (currentSize, icon, buffer, mimeType, publicPath, shouldFin
 }
 
 function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback) {
-  const processNext = function() {
+  const processNext = function () {
     if (sizes.length > 0) {
       return process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publicPath, callback) // next size
     } else if (cachedIconsCopy.length > 0) {
@@ -64,7 +64,7 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publ
   if (size > 0) {
     const mimeType = mime.lookup(icon.src)
     if (!supportedMimeTypes.includes(mimeType)) {
-      let buffer;
+      let buffer
       try {
         buffer = fs.readFileSync(icon.src)
       } catch (err) {
@@ -73,7 +73,7 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publ
       const processedIcon = processIcon(size, icon, buffer, mimeType, publicPath, fingerprint)
       icons.push(processedIcon.manifestIcon)
       assets.push(processedIcon.webpackAsset)
-      return processNext();
+      return processNext()
     }
 
     jimp.read(icon.src, (err, img) => {
@@ -83,7 +83,7 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publ
         const processedIcon = processIcon(size, icon, buffer, mimeType, publicPath, fingerprint)
         icons.push(processedIcon.manifestIcon)
         assets.push(processedIcon.webpackAsset)
-        return processNext();
+        return processNext()
       })
     })
   }
