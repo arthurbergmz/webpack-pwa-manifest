@@ -7,55 +7,97 @@ import { Plugin } from 'webpack';
 export = WebpackPwaManifest
 
 declare class WebpackPwaManifest extends Plugin {
-    constructor(options: WebpackPwaManifest.ManifestOptions);
+    constructor(options: WebpackPwaManifest.Options);
 }
 
 declare namespace WebpackPwaManifest {
+    type Category = 'books' | 'business' | 'education' | 'entertainment' | 'finance' | 'fitness' | 'food' | 'games' | 'government' | 'health' | 'kids' | 'lifestyle' | 'magazines' | 'medical' | 'music' | 'navigation' | 'news' | 'personalization' | 'photo' | 'politics' | 'productivity' | 'security' | 'shopping' | 'social' | 'sports' | 'travel' | 'utilities' | 'weather'
     type Direction = 'ltr' | 'rtl' | 'auto';
     type Display = 'fullscreen' | 'standalone' | 'minimal-ui' | 'browser';
     type Orientation = 'any' | 'natural' | 'landscape' | 'landscape-primary' | 'landscape-secondary' | 'portrait' | 'portrait-primary' | 'portrait-secondary';
     interface ManifestOptions {
         background_color?: string;
+        categories?: (WebpackPwaManifest.Category|string)[];
         description?: string;
-        dir?: Direction;
-        display?: Display;
-        fingerprints?: boolean;
+        dir?: WebpackPwaManifest.Direction;
+        display?: WebpackPwaManifest.Display;
         filename?: string;
-        icons?: Icon | Icon[];
-        inject?: boolean;
+        iarc_rating_id?: string;
+        icons?: WebpackPwaManifest.ImageResource | WebpackPwaManifest.ImageResource[];
         lang?: string;
         name: string;
-        orientation?: Orientation;
+        orientation?: WebpackPwaManifest.Orientation;
         prefer_related_applications?: boolean;
-        related_applications?: RelatedApplications[];
+        related_applications?: WebpackPwaManifest.RelatedApplications[];
         scope?: string;
+        screenshots?: WebpackPwaManifest.ImageResource | WebpackPwaManifest.ImageResource[];
         short_name?: string;
         start_url?: string;
         theme_color?: string;
-        'theme-color'?: string;
-        ios?: boolean | IosOptions;
+        serviceworker?: WebpackPwaManifest.ServiceWorker;
+    }
+    interface GenericOutputOptions {
+        filename?: string;
+        destination?: string;
+    }
+    interface OutputOptions {
+        publicPath?: string;
+        injectHtml?: boolean;
+        includeDirectory?: boolean;
+        manifest?: WebpackPwaManifest.GenericOutputOptions;
+        icons?: WebpackPwaManifest.GenericOutputOptions;
+    }
+    interface Options {
+        output: WebpackPwaManifest.OutputOptions;
+        manifest?: WebpackPwaManifest.ManifestOptions
+        favicons: WebpackPwaManifest.ImageResource[],
+        safari: WebpackPwaManifest.SafariOptions
     }
     interface RelatedApplications {
         platform?: string;
         url: string;
         id?: string;
     }
-    interface IosOptions {
-        'apple-touch-icon'?: string | IosAppleTouchIcon;
-        'apple-touch-startup-image'?: string;
-        'apple-mobile-web-app-title'?: string;
-        'apple-mobile-web-app-capable'?: 'yes' | 'no' | boolean;
-        'apple-mobile-web-app-status-bar-style'?: 'default' | 'black' | 'black-translucent';
+    interface SafariOptions {
+        webAppCapable?: 'yes' | 'no' | boolean;
+        webAppTitle?: string;
+        webAppStatusBarStyle?: 'default' | 'black' | 'black-translucent';
+        startupImage?: WebpackPwaManifest.SafariStartupImageResource;
+        maskIcon?: WebpackPwaManifest.SafariMaskIconImageResource;
+        icons?: WebpackPwaManifest.SafariImageResource | WebpackPwaManifest.SafariImageResource[];
     }
-    interface IosAppleTouchIcon {
-        sizes?: string | number;
-        href: string;
-    }
-    interface Icon {
+    interface SafariStartupImageResource {
         src: string;
-        size?: string | number;
-        sizes?: number[];
+        filename?: string;
+        sizes?: string | number | (string|number)[];
         destination?: string;
-        ios?: boolean | 'default';
+    }
+    interface SafariMaskIconImageResource {
+        src: string;
+        color?: string;
+        filename?: string;
+        sizes?: string | number | (string|number)[];
+        destination?: string;
+    }
+    interface SafariImageResource {
+        src: string;
+        filename?: string;
+        sizes?: string | number | (string|number)[];
+        destination?: string;
+    }
+    interface ImageResource {
+        src: string;
+        filename?: string;
+        sizes?: string | number | (string|number)[];
+        purpose?: 'badge' | 'any';
+        platform?: 'play' | 'itunes' | 'windows' | string;
+        destination?: string;
+        density?: number;
+    }
+    interface ServiceWorker {
+        src: string;
+        scope?: string;
+        type?: 'classic' | 'module';
+        update_via_cache?: 'imports' | 'all' | 'none';
     }
 }
