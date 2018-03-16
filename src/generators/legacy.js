@@ -1,6 +1,6 @@
 import { beforeHtmlProcessing, emit } from './common'
 
-export default function (manifestOptions, pluginOptions) {
+module.exports = function (manifestOptions, pluginOptions) {
   const config = {
     assets: null,
     htmlPlugin: false

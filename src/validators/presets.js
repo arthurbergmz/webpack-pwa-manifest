@@ -1,4 +1,4 @@
-import PresetError from '../errors/PresetError'
+import { PresetError } from '../errors'
 
 const presets = {
   dir: ['ltr', 'rtl', 'auto'],

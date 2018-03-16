@@ -18,6 +18,7 @@ function run (name, next) {
       const testContent = testTree.map((i) => i.substring(testPathLength))
       const testContentLength = testContent.length
       const outputPath = path.join(__dirname, name, 'output')
+      fs.mkdirSync(outputPath)
       const outputPathLength = outputPath.length
       ls(outputPath, (err, outputTree) => {
         if (err) throw err

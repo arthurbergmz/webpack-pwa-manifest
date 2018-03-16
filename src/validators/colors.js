@@ -1,6 +1,6 @@
 // @ts-ignore
 import cssColorNames from 'css-color-names'
-import PresetError from '../errors/PresetError'
+import { PresetError } from '../errors'
 
 function isHexColor (color) {
   return (/^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/).test(color)
