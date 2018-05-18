@@ -28,6 +28,7 @@ module.exports = {
       description: 'My awesome Progressive Web App!',
       background_color: '#ffffff',
       ios: true,
+      crossorigin: 'use-credentials',
       icons: [
         {
           src: path.resolve('./tests/icon.png'),
