@@ -14,6 +14,7 @@ declare namespace WebpackPwaManifest {
     type Direction = 'ltr' | 'rtl' | 'auto';
     type Display = 'fullscreen' | 'standalone' | 'minimal-ui' | 'browser';
     type Orientation = 'any' | 'natural' | 'landscape' | 'landscape-primary' | 'landscape-secondary' | 'portrait' | 'portrait-primary' | 'portrait-secondary';
+    type CrossOrigin = 'use-credentials' | 'anonymous';
     interface ManifestOptions {
         background_color?: string;
         description?: string;
@@ -35,6 +36,7 @@ declare namespace WebpackPwaManifest {
         theme_color?: string;
         'theme-color'?: string;
         ios?: boolean | IosOptions;
+        crossorigin?: CrossOrigin;
     }
     interface RelatedApplications {
         platform?: string;
