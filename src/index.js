@@ -12,7 +12,7 @@ class WebpackPwaManifest {
     this.htmlPlugin = false
     const shortName = options.short_name || options.name || 'App'
     this.options = Object.assign({
-      filename: '[name].[hash][ext]',
+      filename: options.fingerprints ? '[name].[hash].[ext]' : '[name].[ext]',
       name: 'App',
       short_name: shortName,
       orientation: 'portrait',
