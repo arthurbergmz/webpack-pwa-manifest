@@ -41,7 +41,7 @@ function createFilename (filenameTemplate, json, shouldFingerprint) {
     }
   }, {
     pattern: /\[ext\]/gi,
-    value: '.json'
+    value: 'json'
   }, {
     pattern: /\[name\]/gi,
     value: 'manifest'
