@@ -23,7 +23,8 @@
   ],
   "scripts": {
     "build": "babel src --out-dir dist",
-    "test": "npm run build && node tests/index.js"
+    "clean": "rm -rf tests/*/output && rm -rf dist",
+    "test": "npm run clean && npm run build && node tests/index.js"
   },
   "author": "Arthur A. Bergamaschi <arthurbergmz@gmail.com>",
   "license": "MIT",
