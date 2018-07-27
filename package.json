@@ -53,5 +53,8 @@
     "package-lock.json",
     "package.json",
     "README.md"
-  ]
+  ],
+  "engines": {
+    "node": ">=6.0.0"
+  }
 }
