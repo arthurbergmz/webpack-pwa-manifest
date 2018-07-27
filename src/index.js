@@ -11,6 +11,11 @@ class WebpackPwaManifest {
     this.assets = null
     this.htmlPlugin = false
     const shortName = options.short_name || options.name || 'App'
+    // fingerprints is true by default, but we want it to be false even if users
+    // set it to undefined or null.
+    if (!options.hasOwnProperty('fingerprints')) {
+      options.fingerprints = true
+    }
     this.options = Object.assign({
       filename: options.fingerprints ? '[name].[hash].[ext]' : '[name].[ext]',
       name: 'App',
