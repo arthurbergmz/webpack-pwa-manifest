@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WebpackPwaManifest = require('../../../dist')
 
 module.exports = {
-  entry: '../app.js',
+  entry: path.join(__dirname, '../app.js'),
   output: {
     path: path.join(__dirname, '../output'),
     publicPath: '/',
