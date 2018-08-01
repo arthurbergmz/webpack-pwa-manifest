@@ -43,7 +43,7 @@ plugins: [
     short_name: 'MyPWA',
     description: 'My awesome Progressive Web App!',
     background_color: '#ffffff',
-    crossorigin: 'use-credentials', //can be undefined, use-credentials or anonymous
+    crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
     icons: [
       {
         src: path.resolve('src/assets/icon.png'),
@@ -163,9 +163,6 @@ If `publicPath` option is not given, this plugin fallbacks to [Webpack's public 
 
 When defining an icon object, you can also specify its output directory using a property called `destination`. Using `ios: true` in an icon object makes it eligible to the `apple-touch-icon` meta tag injection. Using `ios: 'startup'` in an icon object makes it eligible to the `apple-touch-startup-image` meta tag injection.
 
-If you specify an valid `crossorigin` property it will be added to the manifest link tag in the html. 
-This property determines if the request for the manifest includes CORS headers and is required if the manifest is located on a different domain or requires authentication.
-
 ```javascript
   ...
   icons: [
@@ -189,3 +186,6 @@ This property determines if the request for the manifest includes CORS headers a
   ]
 }
 ```
+
+If you specify a valid `crossorigin` property it will be added to the `<link rel="manifest">` in the HTML document. 
+This property determines if the request for the manifest includes CORS headers and is required if the manifest is located on a different domain or requires authentication.
