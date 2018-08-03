@@ -43,6 +43,7 @@ plugins: [
     short_name: 'MyPWA',
     description: 'My awesome Progressive Web App!',
     background_color: '#ffffff',
+    crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
     icons: [
       {
         src: path.resolve('src/assets/icon.png'),
@@ -132,6 +133,7 @@ Presets of `options`:
   orientation: "portrait",
   display: "standalone",
   start_url: ".",
+  crossorigin: null,
   inject: true,
   fingerprints: true,
   ios: false,
@@ -184,3 +186,6 @@ When defining an icon object, you can also specify its output directory using a 
   ]
 }
 ```
+
+If you specify a valid `crossorigin` property it will be added to the `<link rel="manifest">` in the HTML document. 
+This property determines if the request for the manifest includes CORS headers and is required if the manifest is located on a different domain or requires authentication.

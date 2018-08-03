@@ -13,10 +13,10 @@ module.exports = function (that, { hooks: { compilation: comp, emit } }) {
             content: that.options['theme-color'] || that.options.theme_color
           }
           if (themeColorTag.content) applyTag(tags, 'meta', themeColorTag)
-          applyTag(tags, 'link', {
+          applyTag(tags, 'link', Object.assign({
             rel: 'manifest',
             href: that.manifest.url
-          })
+          }, !!that.options.crossorigin && { crossorigin: that.options.crossorigin }))
           tags = generateMaskIconLink(tags, that.assets)
           htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, `${generateHtmlTags(tags)}</head>`)
         }

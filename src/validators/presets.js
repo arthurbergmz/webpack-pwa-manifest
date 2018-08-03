@@ -9,6 +9,9 @@ const presets = {
   ],
   display: [
     'fullscreen', 'standalone', 'minimal-ui', 'browser'
+  ],
+  crossorigin: [
+    'anonymous', 'use-credentials'
   ]
 }
 
