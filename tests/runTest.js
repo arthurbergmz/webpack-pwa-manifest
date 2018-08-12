@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const path = require('path')
 const ls = require('list-directory-contents')
 const fs = require('fs')
+const assert = require('assert')
 
 function run (name, next) {
   if (!name) return console.log('End.')
@@ -35,11 +36,13 @@ function run (name, next) {
           } else {
             console.log('There are files missing or with different content.')
             console.log(`Test "${name}" failed.`)
+            assert(result === testContentLength)
           }
         } else {
           console.log(`Expected ${testContentLength} file(s).`)
           console.log(`Found ${outputContentLength} file(s).`)
           console.log(`Test "${name}" failed.`)
+          assert(testContentLength === outputContentLength)
         }
       })
     })
