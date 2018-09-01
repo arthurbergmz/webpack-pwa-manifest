@@ -28,7 +28,7 @@ function sanitizeIcon (iconSnippet) {
 
 function processIcon (currentSize, icon, buffer, mimeType, publicPath, shouldFingerprint) {
   const dimensions = `${currentSize}x${currentSize}`
-  const fileName = shouldFingerprint ? `icon_${dimensions}.${generateFingerprint(buffer)}.${mime.extension(mimeType)}` : `icon_${dimensions}.${mime.extension(mimeType)}`
+  const fileName = shouldFingerprint === true || shouldFingerprint === 'icons' ? `icon_${dimensions}.${generateFingerprint(buffer)}.${mime.extension(mimeType)}` : `icon_${dimensions}.${mime.extension(mimeType)}`
   const iconOutputDir = icon.destination ? joinURI(icon.destination, fileName) : fileName
   const iconPublicUrl = joinURI(publicPath, iconOutputDir)
   return {

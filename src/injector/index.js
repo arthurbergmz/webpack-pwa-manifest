@@ -35,7 +35,7 @@ function createFilename (filenameTemplate, json, shouldFingerprint) {
   const formatters = [{
     pattern: /\[hash(:([1-9]|[1-2][0-9]|3[0-2]))?\]/gi,
     value: (match, limit = ':32') => {
-      if (!shouldFingerprint) return ''
+      if (!shouldFingerprint && shouldFingerprint !== 'manifest') return ''
       const hash = generateFingerprint(json)
       return hash.substr(0, parseInt(limit.substr(1), 10))
     }

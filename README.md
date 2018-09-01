@@ -143,7 +143,9 @@ Presets of `options`:
 ```
 
 By default, HTML injection and fingerprint generation are on.
-With `inject: false` and `fingerprints: false`, respectively, you can turn them off.
+With `inject: false` and `fingerprints: false`, respectively, you can turn them off. 
+
+Fingerprinting only the manifest or icons can be set with `fingerprints: 'manifest'` and `fingerprints: 'icons'`.
 
 If `inject: true` and `'theme-color'` property is not defined, it wil try to use `theme_color` as default. Otherwise, no `theme-color` meta tag will be injected.
 
