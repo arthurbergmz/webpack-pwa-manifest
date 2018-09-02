@@ -1,7 +1,7 @@
 {
   "icons": [
     {
-      "src": "/icons/icon_512x512.dd60b11e9762b6e25f6d4ce981a1eeae.svg",
+      "src": "/icons/icon_512x512.f2bd0c0cb064f241f93ab02be9e524b0.svg",
       "sizes": "512x512",
       "type": "image/svg+xml"
     },
@@ -22,5 +22,5 @@
   "display": "standalone",
   "start_url": ".",
   "description": "My awesome Progressive Web App!",
-  "background_color": "#ffffff"
+  "background_color": "rgb(66, 134, 244)"
 }
