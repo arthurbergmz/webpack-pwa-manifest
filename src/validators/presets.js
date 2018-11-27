@@ -5,7 +5,7 @@ const presets = {
   orientation: [
     'any', 'natural', 'landscape', 'landscape-primary',
     'landscape-secondary', 'portrait', 'portrait-primary',
-    'portrait-secondary'
+    'portrait-secondary', 'omit'
   ],
   display: [
     'fullscreen', 'standalone', 'minimal-ui', 'browser'
