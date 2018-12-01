@@ -52,6 +52,9 @@ function createFilename (filenameTemplate, json, shouldFingerprint) {
 
 function manifest (options, publicPath, icons, callback) {
   const content = except(Object.assign({ icons }, options), ['filename', 'inject', 'fingerprints', 'ios', 'publicPath', 'icon', 'useWebpackPublicPath', 'includeDirectory', 'crossorigin'])
+  if (options.orientation === 'omit') {
+    delete content.orientation
+  }
   const json = JSON.stringify(content, null, 2)
   const file = path.parse(options.filename)
   const filename = createFilename(file.base, json, options.fingerprints)
