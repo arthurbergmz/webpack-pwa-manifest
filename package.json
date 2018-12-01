@@ -1,6 +1,6 @@
 {
   "name": "webpack-pwa-manifest",
-  "version": "3.7.1",
+  "version": "3.8.0",
   "description": "Progressive Web Application (PWA) Manifest Generator",
   "main": "index.js",
   "types": "index.d.ts",
