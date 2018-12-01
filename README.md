@@ -149,6 +149,8 @@ If `inject: true` and `'theme-color'` property is not defined, it wil try to use
 
 With `includeDirectory: true`, we will use `filename`'s directory to export the manifest file.
 
+With `orientation: omit`, the orientation key will be omitted from the generated manifest file.
+
 When `inject: true` and `ios: true`, specific Apple meta tags will be injected to the HTML code when possible, as requested at [issue #13](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/13). You can see Apple's [Configuring Web Application](https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html) for more information. Instead of using a boolean value, you can also use an object to specify certain link or meta tag, for instance:
 
 ```javascript
