@@ -115,6 +115,7 @@ export function generateAppleTags (options, assets) {
           if (asset.ios.valid === 'startup') {
             applyTag(tags, 'link', {
               rel: 'apple-touch-startup-image',
+              sizes: asset.ios.size,
               href: asset.ios.href
             })
           } else {
@@ -143,6 +144,7 @@ export function generateMaskIconLink (tags, assets) {
 }
 
 function formatAppleTag (tag, content) {
+  debugger;
   if (tag === 'apple-touch-icon') {
     if (typeof content === 'string') {
       return {
