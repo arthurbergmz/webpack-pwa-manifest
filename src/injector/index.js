@@ -144,7 +144,6 @@ export function generateMaskIconLink (tags, assets) {
 }
 
 function formatAppleTag (tag, content) {
-  debugger;
   if (tag === 'apple-touch-icon') {
     if (typeof content === 'string') {
       return {
