@@ -24,27 +24,28 @@
   "scripts": {
     "build": "babel src --out-dir dist",
     "clean": "rimraf -rf tests/*/output && rimraf -rf dist",
-    "test": "npm run clean && npm run build && node tests/index.js"
+    "test": "npm run clean && npm run build && node tests/index.js",
+    "test:debug": "npm run clean && npm run build && node --inspect-brk ./tests/index.js"
   },
   "author": "Arthur A. Bergamaschi <arthurbergmz@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "css-color-names": "0.0.4",
+    "css-color-names": "^1.0.0",
     "jimp": "^0.6.0",
-    "mime": "^1.6.0"
+    "mime": "^2.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.2",
+    "babel-eslint": "^10.0.1",
     "babel-preset-env": "^1.6.1",
-    "eslint": "^4.18.2",
+    "eslint": "^5.10.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^3.0.6",
     "list-directory-contents": "0.0.3",
     "rimraf": "^2.6.2",
     "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.11"
+    "webpack-cli": "^3.1.2"
   },
   "files": [
     "dist",
