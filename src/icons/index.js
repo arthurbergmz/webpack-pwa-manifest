@@ -16,7 +16,8 @@ function sanitizeIcon (iconSnippet) {
   const arr = parseArray(iconSnippet.size || iconSnippet.sizes)
   if (!arr) throw new IconError('Unknown icon sizes.')
   const sizes = []
-  for (let size of arr) sizes.push(+size || parseInt(size))
+    for (let size of arr) sizes.push(size)
+
   return {
     src: iconSnippet.src,
     sizes,
@@ -27,15 +28,16 @@ function sanitizeIcon (iconSnippet) {
 }
 
 function processIcon (currentSize, icon, buffer, mimeType, publicPath, shouldFingerprint) {
-  
+
   let xDimension = currentSize, yDimension = currentSize, tmp;
   if (typeof currentSize === 'string') {
-    tmp = currentSize.split('x'); //111x222; [111,'x',222];
-    xDimension = tmp[0]; // 
-    yDimension = tmp[2];
+    tmp = currentSize.split('x');
+      xDimension = Number(tmp[0]);
+      yDimension = Number(tmp[1]);
   }
 
   const dimensions = `${xDimension}x${yDimension}`
+
   const fileName = shouldFingerprint ? `icon_${dimensions}.${generateFingerprint(buffer)}.${mime.getExtension(mimeType)}` : `icon_${dimensions}.${mime.getExtension(mimeType)}`
   const iconOutputDir = icon.destination ? joinURI(icon.destination, fileName) : fileName
   const iconPublicUrl = joinURI(publicPath, iconOutputDir)
@@ -69,7 +71,8 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publ
   }
 
   const size = sizes.pop()
-  if (size > 0) {
+
+    if (size > 0 || typeof size === 'string') {
     const mimeType = mime.getType(icon.src)
     if (!supportedMimeTypes.includes(mimeType)) {
       let buffer
@@ -87,12 +90,17 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publ
     jimp.read(icon.src, (err, img) => {
 
       if (err) throw new IconError(`It was not possible to read '${icon.src}'.`)
-      let x = size, y = size, tmp;
+        let x = size, y = size, tmp;
+
       if (typeof size === 'string'){
-        tmp = size.split('x'); //111x222; [111,'x',222];
-        x = tmp[0]; // 
-        y = tmp[2];
+        tmp = size.split('x');
+
+          x = Number(tmp[0]);
+          y = Number(tmp[1]);
       }
+
+
+
       img.resize(x, y).getBuffer(mimeType, (err, buffer) => {
         if (err) throw new IconError(`It was not possible to retrieve buffer of '${icon.src}'.`)
         const processedIcon = processIcon(size, icon, buffer, mimeType, publicPath, fingerprint)
