@@ -1,0 +1,76 @@
+{
+  "icons": [
+    {
+      "src": "/icons/ios/startup/icon_1024x1024.35f4891d98af6eb0c3dee2853ea0f190.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_1024x1024.35f4891d98af6eb0c3dee2853ea0f190.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_180x180.ff39561a8e4bf67913868a5caa412712.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_167x167.26d2d10196ca0a32493134fb5a4510ba.png",
+      "sizes": "167x167",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_152x152.8f7dadbad509ff949e7da5488f44b686.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_120x120.463a6f38bcc879bee49facdf208464c4.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_512x512.d1f0ac39b9300e08b1a811d7919ab7e7.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_192x192.93b74abaa553cfd33becd35a5af58d64.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_144x144.d92dfff13d6f324a3929f6ab86b73333.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_96x96.58231f08c5682276b4fbc4fe6477ace8.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_72x72.4ec5c9cc751141d69642b825c980fc31.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_48x48.19f1520677130b1faeefbc6b932d439c.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_36x36.282e97d80d71ad0b5c87011e6e42cf87.png",
+      "sizes": "36x36",
+      "type": "image/png"
+    }
+  ],
+  "name": "My Progressive Web App",
+  "short_name": "MyPWA",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": ".",
+  "description": "My awesome Progressive Web App!",
+  "background_color": "#ffffff"
+}

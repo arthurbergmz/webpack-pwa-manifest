@@ -35,7 +35,7 @@ function run (name, next) {
             run(next.shift(), next)
           } else {
             console.log('There are files missing or with different content.')
-            console.log(`Test "${name}" failed.`)
+            console.log(`Test "${name}" failedon file ${outputContent}.`)
             assert(result === testContentLength)
           }
         } else {
