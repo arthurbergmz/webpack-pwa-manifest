@@ -1,4 +1,6 @@
 .DS_Store
+.vs/
 node_modules/
 npm-debug.log*
 dist/
+output/
