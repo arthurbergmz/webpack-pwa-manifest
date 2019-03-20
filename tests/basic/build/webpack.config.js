@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WebpackPwaManifest = require('../../../dist')
 
 module.exports = {
-  entry: '../app.js',
+  entry: path.join(__dirname, '../app.js'),
   output: {
     path: path.join(__dirname, '../output'),
     publicPath: '/',
@@ -39,6 +39,12 @@ module.exports = {
           size: 1024,
           destination: 'icons',
           ios: true
+        },
+        {
+          src: path.resolve('./tests/icon.svg'),
+          sizes: 512,
+          destination: 'icons',
+          color: '#ffffff'
         }
       ]
     })

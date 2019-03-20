@@ -1,11 +1,11 @@
 import parse from './parse'
 
-export function beforeHtmlProcessing (config, manifestOptions, pluginOptions, publicPath) {
+export function beforeHtmlProcessing (config, utils) {
   return (htmlPluginData, callback) => {
     if (!config.htmlPlugin) config.htmlPlugin = true
-    parse(publicPath, manifestOptions, pluginOptions)
-      // .then(manifest(pluginOptions))
-      // .then(customTags(pluginOptions))
+    parse(utils)
+      // .then(manifest(utils))
+      // .then(customTags(utils))
       // .then(injectCustomTags)
       .then(callback)
   }

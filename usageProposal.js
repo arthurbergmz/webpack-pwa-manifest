@@ -67,7 +67,7 @@ export const webpackConfig = {
         }
       ],
       safari: {
-        webAppCapable: 'yes', // "yes"/"no" or true/false. "yes" as default. renders to 'apple-mobile-web-app-capable'
+        webAppCapable: 'yes', // true/false. true as default. renders to 'apple-mobile-web-app-capable'
         webAppTitle: 'App', // default value. renders to 'apple-mobile-web-app-title'
         webAppStatusBarStyle: 'default', // default value. renders to 'apple-mobile-web-app-status-bar-style'
         startupImage: { // renders to 'apple-touch-startup-image'
