@@ -37,7 +37,7 @@ module.exports = {
         },
         {
           src: path.resolve('./tests/icon.png'),
-          size: 1024,
+          sizes: 1024,
           destination: 'icons',
           ios: true
         },

@@ -36,13 +36,13 @@ module.exports = {
         },
         {
           src: path.resolve('./tests/icon.png'),
-          size: 1024,
+          sizes: 1024,
           destination: 'icons',
           ios: true
         },
         {
           src: path.resolve('./tests/icon.svg'),
-          sizes: 512,
+          sizess: 512,
           destination: 'icons',
           color: '#ffffff'
         }
