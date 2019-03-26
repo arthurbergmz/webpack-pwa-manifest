@@ -3,7 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { buildUtils } from '../utils'
 import { beforeHtmlProcessing, emit } from './common'
 
-module.exports = function (manifestOptions, pluginOptions) {
+module.exports = function (pluginConfig) {
   const config = {
     assets: null,
     htmlPlugin: false
@@ -15,10 +15,10 @@ module.exports = function (manifestOptions, pluginOptions) {
           !HtmlWebpackPlugin.getHooks(compilation).beforeEmit)) {
         return
       }
-      const publicPath = pluginOptions.publicPath || compilation.options.output.publicPath
+      const publicPath = pluginConfig.output.publicPath || compilation.options.output.publicPath
       const htmlWebpackPluginBeforeHtmlProcessing = compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing || HtmlWebpackPlugin.getHooks(compilation).beforeEmit
-      htmlWebpackPluginBeforeHtmlProcessing.tapAsync('webpack-pwa-manifest', beforeHtmlProcessing(config, buildUtils(publicPath, pluginOptions, manifestOptions)))
+      htmlWebpackPluginBeforeHtmlProcessing.tapAsync('webpack-pwa-manifest', beforeHtmlProcessing(config, buildUtils(publicPath, pluginConfig)))
     })
-    hooks.emit.tapAsync('webpack-pwa-manifest', emit(config, pluginOptions))
+    hooks.emit.tapAsync('webpack-pwa-manifest', emit(config, pluginConfig))
   }
 }

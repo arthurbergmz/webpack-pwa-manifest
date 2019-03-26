@@ -23,30 +23,52 @@ module.exports = {
       }
     }),
     new WebpackPwaManifest({
-      name: 'My Progressive Web App',
-      short_name: 'MyPWA',
-      description: 'My awesome Progressive Web App!',
-      background_color: '#ffffff',
-      ios: true,
-      icons: [
-        {
-          src: path.resolve('./tests/icon.png'),
-          sizes: 512,
-          destination: 'icons'
-        },
-        {
+      manifest: {
+        name: 'My Progressive Web App',
+        short_name: 'MyPWA',
+        description: 'My awesome Progressive Web App!',
+        background_color: '#ffffff',
+        icons: [
+          {
+            src: path.resolve('./tests/icon.png'),
+            sizes: 512,
+            destination: 'icons'
+          },
+          {
+            src: path.resolve('./tests/icon.png'),
+            sizes: 1024,
+            destination: 'icons',
+          },
+          {
+            src: path.resolve('./tests/icon.svg'),
+            sizes: 512,
+            destination: 'icons',
+            color: '#ffffff'
+          }
+        ]
+      },
+      safari: {
+        startupImage: {
           src: path.resolve('./tests/icon.png'),
           sizes: 1024,
-          destination: 'icons',
-          ios: true
+          destination: 'icons/ios',
+          filename: 'startup_[name].[hash][ext]'
         },
-        {
-          src: path.resolve('./tests/icon.svg'),
-          sizes: 512,
-          destination: 'icons',
+        maskIcon: {
+          src: path.resolve('./tests/icon.png'),
+          sizes: 16,
+          destination: 'icons/ios',
+          filename: 'mask_[name].[hash][ext]',
           color: '#ffffff'
-        }
-      ]
+        },
+        icons: [
+          {
+            src: path.resolve('./tests/icon.png'),
+            sizes: [120, 152, 167, 180, 1024],
+            destination: 'icons/ios',
+          }
+        ]
+      }
     })
   ]
 }

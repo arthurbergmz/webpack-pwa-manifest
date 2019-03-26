@@ -8,7 +8,7 @@ const deprecatedMessage = (property) => console.log(`"${property}" is a deprecat
 
 const breakingChangeMessage = (property, options) => {
   const [ key, value ] = property
-  console.log(`[webpack-pwa-manifest v4.x.x] Breaking change: "${key}" is a plugin option, not a manifest one. Read more at "url".`)
+  console.log(`[webpack-pwa-manifest v5.x.x] Breaking change: "${key}" is a plugin option, not a manifest one. Read more at "url".`)
   options[key] = value
 }
 

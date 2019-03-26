@@ -1,15 +1,15 @@
 import validatePresets from './validators/presets'
 import validateColors from './validators/colors'
-import { checkDeprecated, checkBreakingChange } from './validators/versioning'
-import { defaultManifest, defaultPlugin } from './options'
+import validateShortName from './validators/shortName'
+import { defaultConfig, buildObjectUponDefault } from './options'
 
 class WebpackPwaManifest {
-  constructor (manifestOptions = {}, pluginOptions = {}) {
+  constructor (config) {
     this._generator = null
-    this.pluginOptions = checkDeprecated(Object.assign({}, defaultPlugin, checkBreakingChange(manifestOptions), pluginOptions), 'useWebpackPublicPath')
-    validatePresets(manifestOptions, 'dir', 'display', 'orientation')
-    validateColors(manifestOptions, 'background_color', 'theme_color')
-    this.manifestOptions = Object.assign({ short_name: manifestOptions.short_name || manifestOptions.name || 'App' }, defaultManifest, manifestOptions)
+    this.pluginConfig = buildObjectUponDefault(defaultConfig, config)
+    validateShortName(this.pluginConfig)
+    validatePresets(this.pluginConfig, 'dir', 'display', 'orientation')
+    validateColors(this.pluginConfig, 'background_color', 'theme_color')
   }
 
   _acquireGenerator (hooks) {
@@ -18,7 +18,7 @@ class WebpackPwaManifest {
 
   apply (compiler) {
     const { hooks } = compiler
-    const generator = this._generator || (this._generator = this._acquireGenerator(hooks)(this.manifestOptions, this.pluginOptions))
+    const generator = this._generator || (this._generator = this._acquireGenerator(hooks)(this.pluginConfig))
     generator(compiler)
   }
 }

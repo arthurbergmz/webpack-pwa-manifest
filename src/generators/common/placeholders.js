@@ -13,16 +13,34 @@ const _default = {
       fileExtension
     }
   },
-  availablePlaceholders: ['name', 'size', 'ext', 'hash'],
   generatePlaceholders: function (filePath, size, buffer) {
     const filePlaceholders = this.filePlaceholders(filePath)
-    const hashPlaceholder = this.hashPlaceholder(buffer)
-    return {
-      name: filePlaceholders.fileName,
-      size,
-      ext: filePlaceholders.fileExtension,
-      hash: hashPlaceholder
-    }
+    return [
+      {
+        placeholder: 'name',
+        value: filePlaceholders.fileName
+      },
+      {
+        placeholder: 'size',
+        value: size
+      },
+      {
+        placeholder: 'ext',
+        value: filePlaceholders.fileExtension
+      },
+      {
+        placeholder: 'hash',
+        value: () => this.hashPlaceholder(buffer)
+      }
+    ]
+  },
+  format: function (template, placeholders) {
+    return placeholders && Array.isArray(placeholders)
+      ? placeholders.reduce((previous, { placeholder, value }) => {
+        const replace = typeof value === 'function' ? value(placeholder) : value
+        return previous.replace(`[${placeholder}]`, replace)
+      }, template)
+    : template
   }
 }
 

@@ -43,14 +43,15 @@ function parseSizesArray (sizes) {
   })
 }
 
-export function buildUtils (publicPath, pluginOptions, manifestOptions) {
+export function buildUtils (publicPath, pluginConfig) {
   return {
-    _options: { plugin: pluginOptions, manifest: manifestOptions },
+    _config: pluginConfig,
+    _publicPath: publicPath,
     resolveWithoutPublicPath: function (...paths) {
       return uri.join(paths)
     },
     resolveWithPublicPath: function (...paths) {
-      return uri.join(publicPath, ...paths)
+      return uri.join(this._publicPath, ...paths)
     },
     parseIconSizes: function (sizes) {
       const objType = typeof sizes

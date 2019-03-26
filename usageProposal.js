@@ -26,7 +26,7 @@ export const webpackConfig = {
         injectHtml: true, // default value, plugin config
         includeDirectory: true, // default value, plugin config
         manifest: {
-          filename: 'manifest.json',
+          filename: 'manifest.webmanifest',
           destination: '/manifest'
         },
         icons: {
