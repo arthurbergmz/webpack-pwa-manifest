@@ -68,7 +68,7 @@ function manifest (options, publicPath, icons, callback) {
 }
 
 export function buildResources (_this, publicPath, callback) {
-  if (_this.assets && _this.options.inject) { // already cached and ready to inject
+  if (_this.assets) { // already cached and ready to inject
     callback()
   } else {
     publicPath = publicPath || ''
