@@ -20,6 +20,7 @@ function sanitizeIcon (iconSnippet) {
   return {
     src: iconSnippet.src,
     sizes,
+    purpose: iconSnippet.purpose,
     destination: iconSnippet.destination,
     ios: iconSnippet.ios || false,
     color: iconSnippet.color
@@ -28,6 +29,7 @@ function sanitizeIcon (iconSnippet) {
 
 function processIcon (currentSize, icon, buffer, mimeType, publicPath, shouldFingerprint) {
   const dimensions = `${currentSize}x${currentSize}`
+  const iconPurpose = icon.purpose
   const fileName = shouldFingerprint ? `icon_${dimensions}.${generateFingerprint(buffer)}.${mime.getExtension(mimeType)}` : `icon_${dimensions}.${mime.getExtension(mimeType)}`
   const iconOutputDir = icon.destination ? joinURI(icon.destination, fileName) : fileName
   const iconPublicUrl = joinURI(publicPath, iconOutputDir)
@@ -35,7 +37,8 @@ function processIcon (currentSize, icon, buffer, mimeType, publicPath, shouldFin
     manifestIcon: {
       src: iconPublicUrl,
       sizes: dimensions,
-      type: mimeType
+      type: mimeType,
+      purpose: iconPurpose
     },
     webpackAsset: {
       output: iconOutputDir,
