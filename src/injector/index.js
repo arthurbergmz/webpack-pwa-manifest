@@ -27,7 +27,7 @@ const appleTags = {
   'apple-touch-icon': 'link',
   'apple-touch-startup-image': 'link',
   'apple-mobile-web-app-title': 'meta',
-  'apple-mobile-web-app-capable': 'meta',
+  'mobile-web-app-capable': 'meta',
   'apple-mobile-web-app-status-bar-style': 'meta'
 }
 
@@ -101,7 +101,7 @@ export function generateAppleTags (options, assets) {
   if (options.ios) {
     let apple = Object.assign({
       'apple-mobile-web-app-title': options.name,
-      'apple-mobile-web-app-capable': 'yes',
+      'mobile-web-app-capable': 'yes',
       'apple-mobile-web-app-status-bar-style': 'default'
     }, typeof options.ios === 'object' ? options.ios : {})
     for (let tag in apple) {
@@ -172,7 +172,7 @@ function formatAppleTag (tag, content) {
       name: tag,
       content
     }
-  } else if (tag === 'apple-mobile-web-app-capable') {
+  } else if (tag === 'mobile-web-app-capable') {
     let value = content
     if (typeof content === 'boolean' || typeof content === 'number') value = content ? 'yes' : 'no'
     return {

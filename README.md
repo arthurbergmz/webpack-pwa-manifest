@@ -157,7 +157,8 @@ When `inject: true` and `ios: true`, specific Apple meta tags will be injected t
   ...
   ios: {
     'apple-mobile-web-app-title': 'AppTitle',
-    'apple-mobile-web-app-status-bar-style': 'black'
+    'apple-mobile-web-app-status-bar-style': 'black',
+    'mobile-web-app-capable': 'yes'
   }
 ```
 
@@ -189,5 +190,5 @@ When defining an icon object, you can also specify its output directory using a 
 }
 ```
 
-If you specify a valid `crossorigin` property it will be added to the `<link rel="manifest">` in the HTML document. 
+If you specify a valid `crossorigin` property it will be added to the `<link rel="manifest">` in the HTML document.
 This property determines if the request for the manifest includes CORS headers and is required if the manifest is located on a different domain or requires authentication.

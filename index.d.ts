@@ -47,7 +47,7 @@ declare namespace WebpackPwaManifest {
         'apple-touch-icon'?: string | IosAppleTouchIcon;
         'apple-touch-startup-image'?: string;
         'apple-mobile-web-app-title'?: string;
-        'apple-mobile-web-app-capable'?: 'yes' | 'no' | boolean;
+        'mobile-web-app-capable'?: 'yes' | 'no' | boolean;
         'apple-mobile-web-app-status-bar-style'?: 'default' | 'black' | 'black-translucent';
     }
     interface IosAppleTouchIcon {
