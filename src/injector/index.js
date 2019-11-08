@@ -23,7 +23,7 @@ const voidTags = [
   'wbr'
 ]
 
-const appleTags = {
+const appleTags = { 
   'apple-touch-icon': 'link',
   'apple-touch-startup-image': 'link',
   'apple-mobile-web-app-title': 'meta',
