@@ -59,6 +59,6 @@ declare namespace WebpackPwaManifest {
         size?: string | number;
         sizes?: number[];
         destination?: string;
-        ios?: boolean | 'default';
+        ios?: boolean | 'default' | 'startup';
     }
 }
