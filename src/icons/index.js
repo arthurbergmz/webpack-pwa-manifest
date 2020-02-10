@@ -22,7 +22,8 @@ function sanitizeIcon (iconSnippet) {
     sizes,
     destination: iconSnippet.destination,
     ios: iconSnippet.ios || false,
-    color: iconSnippet.color
+    color: iconSnippet.color,
+    purpose: iconSnippet.purpose
   }
 }
 
@@ -35,7 +36,8 @@ function processIcon (currentSize, icon, buffer, mimeType, publicPath, shouldFin
     manifestIcon: {
       src: iconPublicUrl,
       sizes: dimensions,
-      type: mimeType
+      type: mimeType,
+      purpose: icon.purpose
     },
     webpackAsset: {
       output: iconOutputDir,
