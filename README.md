@@ -160,7 +160,7 @@ If `inject: true` and `'theme-color'` property is not defined, it wil try to use
 
 With `includeDirectory: true`, we will use `filename`'s directory to export the manifest file.
 
-With `orientation: omit`, the orientation key will be omitted from the generated manifest file.
+With `orientation: 'omit'`, the orientation key will be omitted from the generated manifest file.
 
 When `inject: true` and `ios: true`, specific Apple meta tags will be injected to the HTML code when possible, as requested at [issue #13](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/13). You can see Apple's [Configuring Web Application](https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html) for more information. Instead of using a boolean value, you can also use an object to specify certain link or meta tag, for instance:
 
@@ -200,5 +200,5 @@ When defining an icon object, you can also specify its output directory using a 
 }
 ```
 
-If you specify a valid `crossorigin` property it will be added to the `<link rel="manifest">` in the HTML document.
+If you specify a valid `crossorigin` property it will be added to the `<link rel="manifest">` in the HTML document. 
 This property determines if the request for the manifest includes CORS headers and is required if the manifest is located on a different domain or requires authentication.
