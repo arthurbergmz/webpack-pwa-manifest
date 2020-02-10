@@ -2,6 +2,10 @@ import { buildResources, injectResources, generateHtmlTags, generateAppleTags, g
 let HtmlWebpackPlugin;
 try {
   HtmlWebpackPlugin = require('html-webpack-plugin');
+} catch (e) {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('it seems like you are not using html-webpack-plugin');
+  }
 } finally {}
 
 function getBeforeProcessingHook(compilation) {
