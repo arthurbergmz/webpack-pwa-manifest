@@ -1,7 +1,7 @@
 
 # webpack-pwa-manifest
 
-> [_Click here and take a look at my latest project: **Organi**ser_](https://github.com/fatec-taquaritinga/organiser)
+> Looking for people willing to help! [More info](https://github.com/arthurbergmz/webpack-pwa-manifest/issues/119)
 
 `webpack-pwa-manifest` is a webpack plugin that generates a 'manifest.json' for your Progressive Web Application, with auto icon resizing and fingerprinting support.
 
