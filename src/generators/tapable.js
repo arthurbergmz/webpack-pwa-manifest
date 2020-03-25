@@ -21,7 +21,11 @@ module.exports = function (that, { hooks: { compilation: comp, emit } }) {
     if (!beforeProcessingHook) return;
     beforeProcessingHook.tapAsync('webpack-pwa-manifest', function(htmlPluginData, callback) {
       if (!that.htmlPlugin) that.htmlPlugin = true
-      buildResources(that, that.options.publicPath || compilation.options.output.publicPath, () => {
+      const publicPath = compilation.mainTemplate.getAssetPath(
+        that.options.publicPath || compilation.options.output.publicPath,
+        { hash: compilation.hash }
+      );
+      buildResources(that, publicPath, () => {
         if (that.options.inject) {
           let tags = generateAppleTags(that.options, that.assets)
           const themeColorTag = {
@@ -44,7 +48,11 @@ module.exports = function (that, { hooks: { compilation: comp, emit } }) {
     if (that.htmlPlugin) {
       injectResources(compilation, that.assets, callback)
     } else {
-      buildResources(that, that.options.publicPath || compilation.options.output.publicPath, () => {
+      const publicPath = compilation.mainTemplate.getAssetPath(
+        that.options.publicPath || compilation.options.output.publicPath,
+        { hash: compilation.hash }
+      );
+      buildResources(that, publicPath, () => {
         injectResources(compilation, that.assets, callback)
       })
     }
