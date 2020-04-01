@@ -6,7 +6,9 @@ const tests = [
     'issue-84',
     'issue-87', 
     'rgb-background', 
-    'rgba-background'
+    'rgba-background',
+    'issue-59',
+    'issue-59-2'
 ]
 
 console.log('Running tests...')
