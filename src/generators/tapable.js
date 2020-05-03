@@ -1,51 +1,86 @@
-import { buildResources, injectResources, generateHtmlTags, generateAppleTags, generateMaskIconLink, applyTag } from '../injector'
-let HtmlWebpackPlugin;
-try {
-  HtmlWebpackPlugin = require('html-webpack-plugin');
-} catch (e) {
-  if (process.env.NODE_ENV === 'development') {
-    console.log('it seems like you are not using html-webpack-plugin');
-  }
-} finally {}
+import {
+  buildResources,
+  injectResources,
+  generateAppleTags,
+  generateMaskIconLink,
+  applyTag
+} from '../injector'
 
-function getBeforeProcessingHook(compilation) {
-  if (!compilation.hooks || !compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing) {
-    return (HtmlWebpackPlugin && HtmlWebpackPlugin.getHooks) ? HtmlWebpackPlugin.getHooks(compilation).beforeEmit : null;
+function* createHtmlTagObjectsFromTags (tags) {
+  for (const [tagName, nodes] of Object.entries(tags)) {
+    for (const attributes of Array.isArray(nodes) ? nodes : [nodes]) {
+      yield {
+        tagName,
+        voidTag: true,
+        attributes
+      }
+    }
   }
-  return compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing;
 }
 
-module.exports = function (that, { hooks: { compilation: comp, emit } }) {
-  comp.tap('webpack-pwa-manifest', (compilation) => {
-    const beforeProcessingHook = getBeforeProcessingHook(compilation);
-    if (!beforeProcessingHook) return;
-    beforeProcessingHook.tapAsync('webpack-pwa-manifest', function(htmlPluginData, callback) {
-      if (!that.htmlPlugin) that.htmlPlugin = true
-      buildResources(that, that.options.publicPath || compilation.options.output.publicPath, () => {
-        if (that.options.inject) {
-          let tags = generateAppleTags(that.options, that.assets)
-          const themeColorTag = {
-            name: 'theme-color',
-            content: that.options['theme-color'] || that.options.theme_color
-          }
-          if (themeColorTag.content) applyTag(tags, 'meta', themeColorTag)
-          applyTag(tags, 'link', Object.assign({
-            rel: 'manifest',
-            href: that.manifest.url
-          }, !!that.options.crossorigin && { crossorigin: that.options.crossorigin }))
-          tags = generateMaskIconLink(tags, that.assets)
-          htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, `${generateHtmlTags(tags)}</head>`)
-        }
-        callback(null, htmlPluginData)
-      })
-    })
+function injectManifestTags (plugin, compilation, htmlPluginData, callback) {
+  if (!plugin.htmlPlugin) plugin.htmlPlugin = true
+  buildResources(plugin, plugin.options.publicPath || compilation.options.output.publicPath, () => {
+    if (plugin.options.inject) {
+      let tags = generateAppleTags(plugin.options, plugin.assets)
+      const themeColorTag = {
+        name: 'theme-color',
+        content: plugin.options['theme-color'] || plugin.options.theme_color
+      }
+      if (themeColorTag.content) applyTag(tags, 'meta', themeColorTag)
+      applyTag(tags, 'link', Object.assign({
+        rel: 'manifest',
+        href: plugin.manifest.url
+      }, !!plugin.options.crossorigin && {crossorigin: plugin.options.crossorigin}))
+      tags = generateMaskIconLink(tags, plugin.assets)
+      if (Array.isArray(htmlPluginData.head)) {
+        // looks like html-webpack-plugin < v4
+        htmlPluginData.head.push(...createHtmlTagObjectsFromTags(tags))
+      } else {
+        htmlPluginData.headTags.push(...createHtmlTagObjectsFromTags(tags))
+      }
+    }
+    callback(null, htmlPluginData)
   })
-  emit.tapAsync('webpack-pwa-manifest', (compilation, callback) => {
-    if (that.htmlPlugin) {
-      injectResources(compilation, that.assets, callback)
+}
+
+function getHook(compiler, compilation) {
+  // Using a local installation of the HtmlWebpackPlugin will return
+  // invalid hooks, that can’t be tapped into, because they’re never
+  // executed. See https://github.com/jantimon/html-webpack-plugin/issues/1091.
+  // We could either make things explicit and let users pass the Plugin into
+  // our options or retrieve the plugin from the webpack options.
+  const HtmlWebpackPlugin = compiler.options.plugins.find(
+    plugin => plugin.constructor.name === 'HtmlWebpackPlugin').constructor
+
+  if (!HtmlWebpackPlugin) {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('it seems like you are not using html-webpack-plugin')
+    }
+  }
+
+  return HtmlWebpackPlugin && HtmlWebpackPlugin.getHooks
+    ? HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups
+    : compilation.hooks.htmlWebpackPluginAlterAssetTags
+}
+
+module.exports = function (plugin, compiler) {
+  compiler.hooks.compilation.tap('webpack-pwa-manifest', (compilation) => {
+    const hook = getHook(compiler, compilation)
+    if (!hook) return
+
+    hook.tapAsync(
+      'webpack-pwa-manifest',
+      (data, callback) => injectManifestTags(plugin, compilation, data, callback)
+    )
+  })
+
+  compiler.hooks.emit.tapAsync('webpack-pwa-manifest', (compilation, callback) => {
+    if (plugin.htmlPlugin) {
+      injectResources(compilation, plugin.assets, callback)
     } else {
-      buildResources(that, that.options.publicPath || compilation.options.output.publicPath, () => {
-        injectResources(compilation, that.assets, callback)
+      buildResources(plugin, plugin.options.publicPath || compilation.options.output.publicPath, () => {
+        injectResources(compilation, plugin.assets, callback)
       })
     }
   })
