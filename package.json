@@ -49,7 +49,6 @@
   },
   "files": [
     "dist",
-    "src",
     "CHANGELOG.md",
     "index.d.ts",
     "index.js",
