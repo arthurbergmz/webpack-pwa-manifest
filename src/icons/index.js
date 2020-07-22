@@ -98,7 +98,8 @@ function process (sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publ
         y = Number(tmp[1])
       }
 
-      img.resize(x, y).getBuffer(mimeType, (err, buffer) => {
+      img.background(img.getPixelColor(1,1))
+      img.contain(x, y, jimp.HORIZONTAL_ALIGN_CENTER | jimp.VERTICAL_ALIGN_MIDDLE).getBuffer(mimeType, (err, buffer) => {
         if (err) throw new IconError(`It was not possible to retrieve buffer of '${icon.src}'.`)
         const processedIcon = processIcon(size, icon, buffer, mimeType, publicPath, fingerprint)
         icons.push(processedIcon.manifestIcon)

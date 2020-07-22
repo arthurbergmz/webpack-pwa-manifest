@@ -144,7 +144,8 @@ function process(sizes, icon, cachedIconsCopy, icons, assets, fingerprint, publi
         y = Number(tmp[1]);
       }
 
-      img.resize(x, y).getBuffer(mimeType, function (err, buffer) {
+      img.background(img.getPixelColor(1, 1));
+      img.contain(x, y, _jimp["default"].HORIZONTAL_ALIGN_CENTER | _jimp["default"].VERTICAL_ALIGN_MIDDLE).getBuffer(mimeType, function (err, buffer) {
         if (err) throw new _IconError["default"]("It was not possible to retrieve buffer of '".concat(icon.src, "'."));
         var processedIcon = processIcon(size, icon, buffer, mimeType, publicPath, fingerprint);
         icons.push(processedIcon.manifestIcon);
