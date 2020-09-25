@@ -23,6 +23,7 @@
   ],
   "scripts": {
     "build": "npx babel src --out-dir dist",
+    "prepare": "npm run build",
     "clean": "rimraf -rf tests/*/output && rimraf -rf dist",
     "test": "npm run clean && npm run build && node tests/index.js",
     "test:debug": "npm run clean && npm run build && node --inspect-brk ./tests/index.js"

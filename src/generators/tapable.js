@@ -22,7 +22,12 @@ module.exports = function (that, { hooks: { compilation: comp, emit } }) {
     beforeProcessingHook.tapAsync('webpack-pwa-manifest', function(htmlPluginData, callback) {
       if (!that.htmlPlugin) that.htmlPlugin = true
       buildResources(that, that.options.publicPath || compilation.options.output.publicPath, () => {
-        if (that.options.inject) {
+        const isInjectionAllowed =
+          typeof that.options.inject === 'function'
+            ? that.options.inject(htmlPluginData.plugin)
+            : that.options.inject
+
+        if (isInjectionAllowed) {
           let tags = generateAppleTags(that.options, that.assets)
           const themeColorTag = {
             name: 'theme-color',

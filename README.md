@@ -153,6 +153,8 @@ Presets of `options`:
 }
 ```
 
+`inject` accepts a boolean or function to allow filtering the file to inject into. e.g. `(htmlPlugin) => basename(htmlPlugin.options.filename) === 'index.html'`
+
 By default, HTML injection and fingerprint generation are on.
 With `inject: false` and `fingerprints: false`, respectively, you can turn them off.
 
