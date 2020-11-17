@@ -58,7 +58,7 @@ function manifest (options, publicPath, icons, callback) {
   const json = JSON.stringify(content, null, 2)
   const file = path.parse(options.filename)
   const filename = createFilename(file.base, json, options.fingerprints)
-  const output = options.includeDirectory ? path.join(file.dir, filename) : filename
+  const output = options.includeDirectory ? path.join(publicPath || file.dir, filename) : filename
   callback(null, {
     output,
     url: joinURI(publicPath, output),
