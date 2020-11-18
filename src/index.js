@@ -28,7 +28,8 @@ class WebpackPwaManifest {
       ios: false,
       publicPath: null,
       includeDirectory: true,
-      crossorigin: null
+      crossorigin: null,
+      space: 2
     }, options)
   }
 
