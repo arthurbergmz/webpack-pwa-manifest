@@ -48,9 +48,9 @@ function run(name, next) {
             const isDirectory = fs.lstatSync(outputToTest).isDirectory()
             const success = isDirectory || (testAgainst > -1 && fs.readFileSync(outputToTest).equals(fs.readFileSync(testTree[testAgainst])))
 
-            // if (!success) {
-            //   console.log(`FAILED: "${outputFilename}" AGAINST "${testTree[testAgainst]}..."`)
-            // }
+            if (!success) {
+              console.log(`FAILED: "${outputFilename}" AGAINST "${testTree[testAgainst]}..."`)
+            }
 
             return success ? successfulTests + 1 : successfulTests
           }, 0)
