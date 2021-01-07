@@ -38,6 +38,9 @@
   "peerDependencies": {
     "webpack": "^5"
   },
+  "optionalDependencies": {
+    "html-webpack-plugin": "^5"
+  },
   "devDependencies": {
     "@babel/cli": "7.12.1",
     "@babel/core": "7.12.3",
