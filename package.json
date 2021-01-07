@@ -35,12 +35,6 @@
     "jimp": "0.16.1",
     "mime": "2.4.6"
   },
-  "peerDependencies": {
-    "webpack": "^5"
-  },
-  "optionalDependencies": {
-    "html-webpack-plugin": "^5"
-  },
   "devDependencies": {
     "@babel/cli": "7.12.1",
     "@babel/core": "7.12.3",
