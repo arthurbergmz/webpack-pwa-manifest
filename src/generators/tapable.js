@@ -15,7 +15,7 @@ function getBeforeProcessingHook(compilation) {
   return compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing;
 }
 
-module.exports = function (that, { hooks: { compilation: comp } }) {
+module.exports = function (that, { hooks: { thisCompilation: comp } }) {
   comp.tap('webpack-pwa-manifest', (compilation) => {
     const beforeProcessingHook = getBeforeProcessingHook(compilation);
     if (!beforeProcessingHook) return;
