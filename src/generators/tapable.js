@@ -19,10 +19,8 @@ module.exports = function (that, { hooks: { compilation: comp } }) {
   comp.tap('webpack-pwa-manifest', (compilation) => {
     const beforeProcessingHook = getBeforeProcessingHook(compilation);
     if (!beforeProcessingHook) return;
-    console.log('test1');
 
     beforeProcessingHook.tapAsync('webpack-pwa-manifest', function (htmlPluginData, callback) {
-      console.log('test2');
       if (!that.htmlPlugin) that.htmlPlugin = true
       buildResources(that, that.options.publicPath || compilation.options.output.publicPath, () => {
         if (that.options.inject) {
