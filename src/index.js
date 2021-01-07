@@ -1,9 +1,9 @@
-import validatePresets from './validators/presets'
 import validateColors from './validators/colors'
+import validatePresets from './validators/presets'
 import checkDeprecated from './validators/versioning'
 
 class WebpackPwaManifest {
-  constructor (options = {}) {
+  constructor(options = {}) {
     validatePresets(options, 'dir', 'display', 'orientation', 'crossorigin')
     validateColors(options, 'background_color', 'theme_color')
     checkDeprecated(options, 'useWebpackPublicPath')
@@ -32,11 +32,11 @@ class WebpackPwaManifest {
     }, options)
   }
 
-  _acquireGenerator (hooks) {
+  _acquireGenerator(hooks) {
     return hooks ? require('./generators/tapable') : require('./generators/legacy')
   }
 
-  apply (compiler) {
+  apply(compiler) {
     const { hooks } = compiler
     const generator = this._generator || (this._generator = this._acquireGenerator(hooks))
     generator(this, compiler)
