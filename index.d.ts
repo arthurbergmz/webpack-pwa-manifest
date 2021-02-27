@@ -20,6 +20,7 @@ declare namespace WebpackPwaManifest {
         description?: string;
         dir?: Direction;
         display?: Display;
+        display_override?: Display[];
         fingerprints?: boolean;
         filename?: string;
         icons?: Icon | Icon[];
