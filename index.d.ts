@@ -2,7 +2,7 @@
 // Project: https://github.com/arthurbergmz/webpack-pwa-manifest
 // Definitions by: Arthur A. Bergamaschi <https://www.github.com/arthurbergmz>
 
-import { Plugin } from 'webpack';
+import { WebpackPluginInstance as Plugin } from 'webpack';
 
 export = WebpackPwaManifest
 
