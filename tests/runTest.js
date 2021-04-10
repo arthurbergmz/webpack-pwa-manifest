@@ -4,7 +4,7 @@ const ls = require('list-directory-contents')
 const fs = require('fs')
 const assert = require('assert')
 
-function run (name, next) {
+function run(name, next) {
   if (!name) return console.log('End.')
 
   const config = require(path.resolve(`./tests/${name}/build/webpack.config.js`))
@@ -28,6 +28,9 @@ function run (name, next) {
       const outputPath = path.join(__dirname, name, 'output')
       const outputPathLength = outputPath.length
 
+      // console.log('testContent: ', testContent)
+      // console.log('testContentLength: ', testContentLength)
+
       ls(outputPath, (err, outputTree) => {
         if (err) throw err
 
@@ -41,8 +44,9 @@ function run (name, next) {
           const result = outputContent.reduce((successfulTests, outputToTest) => {
             const outputFilename = outputToTest.substring(outputPathLength)
             const testAgainst = testContent.indexOf(outputFilename)
-            
-            const success = testAgainst > -1 && fs.readFileSync(outputToTest).equals(fs.readFileSync(testTree[testAgainst]))
+
+            const isDirectory = fs.lstatSync(outputToTest).isDirectory()
+            const success = isDirectory || (testAgainst > -1 && fs.readFileSync(outputToTest, 'utf-8').trim() === fs.readFileSync(testTree[testAgainst], 'utf-8').trim())
 
             // if (!success) {
             //   console.log(`FAILED: "${outputFilename}" AGAINST "${testTree[testAgainst]}..."`)

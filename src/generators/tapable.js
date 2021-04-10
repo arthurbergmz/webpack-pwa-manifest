@@ -1,4 +1,4 @@
-import { buildResources, injectResources, generateHtmlTags, generateAppleTags, generateMaskIconLink, applyTag } from '../injector'
+import { applyTag, buildResources, generateAppleTags, generateHtmlTags, generateMaskIconLink, injectResources } from '../injector';
 let HtmlWebpackPlugin;
 try {
   HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -6,7 +6,7 @@ try {
   if (process.env.NODE_ENV === 'development') {
     console.log('it seems like you are not using html-webpack-plugin');
   }
-} finally {}
+} finally { }
 
 function getBeforeProcessingHook(compilation) {
   if (!compilation.hooks || !compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing) {
@@ -15,11 +15,12 @@ function getBeforeProcessingHook(compilation) {
   return compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing;
 }
 
-module.exports = function (that, { hooks: { compilation: comp, emit } }) {
+module.exports = function (that, { hooks: { thisCompilation: comp } }) {
   comp.tap('webpack-pwa-manifest', (compilation) => {
     const beforeProcessingHook = getBeforeProcessingHook(compilation);
     if (!beforeProcessingHook) return;
-    beforeProcessingHook.tapAsync('webpack-pwa-manifest', function(htmlPluginData, callback) {
+
+    beforeProcessingHook.tapAsync('webpack-pwa-manifest', function (htmlPluginData, callback) {
       if (!that.htmlPlugin) that.htmlPlugin = true
       buildResources(that, that.options.publicPath || compilation.options.output.publicPath, () => {
         if (that.options.inject) {
@@ -37,16 +38,17 @@ module.exports = function (that, { hooks: { compilation: comp, emit } }) {
           htmlPluginData.html = htmlPluginData.html.replace(/(<\/head>)/i, `${generateHtmlTags(tags)}</head>`)
         }
         callback(null, htmlPluginData)
-      })
-    })
-  })
-  emit.tapAsync('webpack-pwa-manifest', (compilation, callback) => {
-    if (that.htmlPlugin) {
-      injectResources(compilation, that.assets, callback)
-    } else {
-      buildResources(that, that.options.publicPath || compilation.options.output.publicPath, () => {
+      });
+    });
+
+    compilation.hooks.additionalAssets.tapAsync('webpack-pwa-manifest', callback => {
+      if (that.htmlPlugin) {
         injectResources(compilation, that.assets, callback)
-      })
-    }
-  })
+      } else {
+        buildResources(that, that.options.publicPath || compilation.options.output.publicPath, () => {
+          injectResources(compilation, that.assets, callback)
+        })
+      }
+    });
+  });
 }

@@ -7,11 +7,13 @@ module.exports = {
   output: {
     path: path.join(__dirname, '../output'),
     publicPath: '/',
-    filename: '[name].[fullhash].bundle.js'
+    filename: '[name].[contenthash].bundle.js'
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
+      inject: 'body',
+      scriptLoading: 'blocking',
       minify: {
         minifyCSS: true,
         minifyJS: true,
