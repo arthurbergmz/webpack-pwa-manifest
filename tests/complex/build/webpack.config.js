@@ -22,11 +22,24 @@ module.exports = {
         removeComments: true
       }
     }),
+    new HtmlWebpackPlugin({
+      filename: 'no-manifest-index.html',
+      minify: {
+        minifyCSS: true,
+        minifyJS: true,
+        collapseWhitespace: true,
+        collapseInlineTagWhitespace: true,
+        preserveLineBreaks: false,
+        removeAttributeQuotes: true,
+        removeComments: true
+      }
+    }),
     new WebpackPwaManifest({
       name: 'My Progressive Web App',
       short_name: 'MyPWA',
       description: 'My awesome Progressive Web App!',
       background_color: '#ffffff',
+      inject: ['index.html'],
       ios: true,
       crossorigin: 'use-credentials',
       icons: [
