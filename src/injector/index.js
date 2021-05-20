@@ -221,3 +221,13 @@ export function generateHtmlTags (tags) {
   }
   return html
 }
+
+export function shouldInject (injectOption, outputName) {
+  if (!injectOption) {
+    return injectOption
+  }
+  if (injectOption === true) {
+    return true
+  }
+  return injectOption.indexOf(outputName) >= 0
+}
