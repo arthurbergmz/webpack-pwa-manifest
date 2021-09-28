@@ -2,12 +2,13 @@
 // Project: https://github.com/arthurbergmz/webpack-pwa-manifest
 // Definitions by: Arthur A. Bergamaschi <https://www.github.com/arthurbergmz>
 
-import { Plugin } from 'webpack';
+import { Compiler } from 'webpack';
 
 export = WebpackPwaManifest
 
-declare class WebpackPwaManifest extends Plugin {
+declare class WebpackPwaManifest {
     constructor(options: WebpackPwaManifest.ManifestOptions);
+    apply(compiler: Compiler): void;
 }
 
 declare namespace WebpackPwaManifest {
