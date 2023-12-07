@@ -13,6 +13,7 @@ declare class WebpackPwaManifest extends Plugin {
 declare namespace WebpackPwaManifest {
     type Direction = 'ltr' | 'rtl' | 'auto';
     type Display = 'fullscreen' | 'standalone' | 'minimal-ui' | 'browser';
+    type DisplayOverride = 'window-controls-overlay' | Display;
     type Orientation = 'any' | 'natural' | 'landscape' | 'landscape-primary' | 'landscape-secondary' | 'portrait' | 'portrait-primary' | 'portrait-secondary';
     type CrossOrigin = 'use-credentials' | 'anonymous';
     interface ManifestOptions {
@@ -20,6 +21,7 @@ declare namespace WebpackPwaManifest {
         description?: string;
         dir?: Direction;
         display?: Display;
+        display_override?: DisplayOverride[];
         fingerprints?: boolean;
         filename?: string;
         icons?: Icon | Icon[];

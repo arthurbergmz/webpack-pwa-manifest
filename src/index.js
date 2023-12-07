@@ -4,7 +4,7 @@ import checkDeprecated from './validators/versioning'
 
 class WebpackPwaManifest {
   constructor (options = {}) {
-    validatePresets(options, 'dir', 'display', 'orientation', 'crossorigin')
+    validatePresets(options, 'dir', 'display', 'display_override', 'orientation', 'crossorigin')
     validateColors(options, 'background_color', 'theme_color')
     checkDeprecated(options, 'useWebpackPublicPath')
     this._generator = null

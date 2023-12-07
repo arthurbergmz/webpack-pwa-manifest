@@ -10,12 +10,16 @@ const presets = {
   display: [
     'fullscreen', 'standalone', 'minimal-ui', 'browser'
   ],
+  display_override: [
+    'window-controls-overlay', 'fullscreen', 'standalone', 'minimal-ui', 'browser'
+  ],
   crossorigin: [
     'anonymous', 'use-credentials'
   ]
 }
 
 function hasPreset (key, value) {
+  if (Array.isArray(value)) return value.every(v => hasPreset(key, v))
   return presets[key].indexOf(value) >= 0
 }
 
